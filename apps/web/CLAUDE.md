@@ -1,4 +1,4 @@
-# vibe-check.com
+# vibe-check.cloud
 
 A living, AI-aggregated field guide for vibe coders — helping developers understand the hidden complexity in common features and make informed build-vs-buy decisions.
 
@@ -137,10 +137,6 @@ const debouncedSearch = debounce((query: string) => {
 }, 300);
 ```
 
-## Environment Variables
-
-Copy `.env.example` to `.env.local` and fill in your API keys.
-
 **Important:** Import environment variables from `@/lib/config`:
 
 ```typescript
@@ -150,4 +146,3 @@ import { STRIPE_SECRET_KEY } from "@/lib/config";
 // ❌ Avoid
 const key = process.env.STRIPE_SECRET_KEY;
 ```
-

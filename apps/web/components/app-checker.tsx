@@ -43,17 +43,16 @@ export function AppChecker() {
   function handleSubmit() {
     setError(null);
     startTransition(async () => {
-      try {
-        const recommendations = await checkApp(
-          description,
-          Array.from(selectedTools)
-        );
-        setResults(recommendations);
+      const result = await checkApp(
+        description,
+        Array.from(selectedTools)
+      );
+
+      if (result.success) {
+        setResults(result.recommendations);
         setShowAll(false);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Something went wrong. Please try again.'
-        );
+      } else {
+        setError(result.error);
       }
     });
   }
@@ -76,11 +75,11 @@ export function AppChecker() {
       <div className="mx-auto max-w-4xl px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="text-3xl font-bold tracking-tight">
-            Check Your App
+            Check Your Vibe-Coded App for Production Risks
           </h2>
           <p className="mt-3 text-muted-foreground">
             Describe what you&apos;re building and we&apos;ll show you the
-            features that need the most attention.
+            features that need the most attention before you ship.
           </p>
         </div>
 

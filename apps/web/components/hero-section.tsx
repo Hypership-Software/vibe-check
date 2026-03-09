@@ -42,7 +42,7 @@ export function HeroSection() {
           Your AI built it in 20 minutes.
           <br />
           <span className="text-muted-foreground">
-            Here&apos;s what it missed.
+            Find the production risks it missed.
           </span>
         </h1>
 

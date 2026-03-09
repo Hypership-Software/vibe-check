@@ -14,7 +14,7 @@ export function FaqSection({ faqs }: FaqSectionProps) {
   return (
     <section className="mx-auto max-w-3xl px-6 py-16" id="faq">
       <h2 className="mb-8 text-center text-2xl font-bold tracking-tight sm:text-3xl">
-        Frequently Asked Questions
+        Vibe Coding &amp; Production Readiness FAQ
       </h2>
 
       <div className="divide-y divide-border rounded-lg border border-border">

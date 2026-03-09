@@ -10,30 +10,36 @@ import {
 } from '@/lib/recommendation-engine';
 import { CheckAppSchema } from '@/models/recommendation-schema';
 
+type CheckAppResult =
+  | { success: true; recommendations: RecommendationResult[] }
+  | { success: false; error: string };
+
 export async function checkApp(
   description: string,
   tools: string[] = []
-): Promise<RecommendationResult[]> {
+): Promise<CheckAppResult> {
   const validated = CheckAppSchema.safeParse({ description, tools });
 
   if (!validated.success) {
-    throw new Error(prettifyError(validated.error));
+    return { success: false, error: prettifyError(validated.error) };
   }
 
   const { description: trimmedDescription, tools: validatedTools } = validated.data;
 
   try {
-    const { features: matched } = await aiService.matchFeatures(trimmedDescription, validatedTools);
+    const result = await aiService.matchFeatures(trimmedDescription, validatedTools);
+    const matched = result?.features ?? [];
 
     if (matched.length === 0) {
-      throw new Error(
-        'That doesn\'t look like an app description. Try something like "A marketplace for freelance designers with payments and messaging".'
-      );
+      return {
+        success: false,
+        error: 'That doesn\'t look like an app description. Try something like "A marketplace for freelance designers with payments and messaging".',
+      };
     }
 
     const featureMap = new Map(FEATURES.map((feature) => [feature.id, feature]));
 
-    return matched
+    const recommendations = matched
       .map((match) => {
         const feature = featureMap.get(match.id);
         if (!feature) return null;
@@ -52,10 +58,9 @@ export async function checkApp(
         };
       })
       .filter((result): result is RecommendationResult => result !== null);
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('doesn\'t look like')) {
-      throw error;
-    }
-    return getRecommendations(trimmedDescription);
+
+    return { success: true, recommendations };
+  } catch {
+    return { success: true, recommendations: getRecommendations(trimmedDescription) };
   }
 }

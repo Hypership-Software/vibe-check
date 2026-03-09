@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { FEATURES } from '@/lib/features';
@@ -9,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ApproachContent } from '@/components/approach-content';
 import { getFeatureArticleJsonLd, getBreadcrumbJsonLd, safeJsonLd } from '@/lib/seo';
+import { getRelatedFeatures } from '@/lib/feature-relations';
 
 export const dynamicParams = false;
 
@@ -26,8 +28,8 @@ export async function generateMetadata({
   if (!feature) return {};
 
   const content = getFeatureContent(feature.name);
-  const title = `${feature.name} — Production Readiness Guide`;
-  const description = `${feature.shortDescription}. Learn the hidden risks, common mistakes, and production readiness checklist for ${feature.name.toLowerCase()} in AI-built apps.`;
+  const title = `${feature.name} Checklist for AI-Built Apps`;
+  const description = `${feature.shortDescription}. Learn the hidden risks, common mistakes, and production readiness checklist for ${feature.name.toLowerCase()} in vibe-coded apps. Scan your app free.`;
 
   return {
     title,
@@ -36,12 +38,12 @@ export async function generateMetadata({
       canonical: `https://vibe-check.cloud/features/${id}`,
     },
     openGraph: {
-      title: `${feature.name} — Vibe Check Production Readiness Guide`,
+      title: `${feature.name} Checklist for AI-Built Apps — Vibe Check`,
       description,
       url: `https://vibe-check.cloud/features/${id}`,
       images: [
         {
-          url: "/landing.png",
+          url: "/vibe-check-og.png",
           width: 1200,
           height: 630,
           alt: `${feature.name} production readiness guide — Vibe Check`,
@@ -55,9 +57,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${feature.name} — Vibe Check Production Readiness Guide`,
+      title: `${feature.name} Checklist for AI-Built Apps — Vibe Check`,
       description,
-      images: ["/landing.png"],
+      images: ["/vibe-check-og.png"],
     },
   };
 }
@@ -105,15 +107,15 @@ export default async function FeaturePage({
           <nav aria-label="Breadcrumb" className="mb-6">
             <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <li>
-                <a href="/" className="transition-colors hover:text-foreground">
+                <Link href="/" className="transition-colors hover:text-foreground">
                   Vibe Check
-                </a>
+                </Link>
               </li>
               <li aria-hidden="true">/</li>
               <li>
-                <a href="/#check-your-app" className="transition-colors hover:text-foreground">
+                <Link href="/#check-your-app" className="transition-colors hover:text-foreground">
                   Features
-                </a>
+                </Link>
               </li>
               <li aria-hidden="true">/</li>
               <li className="text-foreground font-medium" aria-current="page">
@@ -128,7 +130,7 @@ export default async function FeaturePage({
             </span>
             <div>
               <h1 className="text-3xl font-bold tracking-tight">
-                {feature.name}
+                {feature.name} Checklist for AI-Built Apps
               </h1>
               <p className="text-muted-foreground">{feature.shortDescription}</p>
             </div>
@@ -157,6 +159,8 @@ export default async function FeaturePage({
               <DidYouKnowSection didYouKnow={content.didYouKnow} />
             </div>
           )}
+
+          <RelatedChecksSection featureId={id} />
         </article>
       </main>
     </div>
@@ -285,6 +289,41 @@ function DidYouKnowSection({
           </p>
         </CardContent>
       </Card>
+    </section>
+  );
+}
+
+function RelatedChecksSection({ featureId }: { featureId: string }) {
+  const related = getRelatedFeatures(featureId);
+  if (related.length === 0) return null;
+
+  return (
+    <section className="mt-10 border-t border-border pt-10">
+      <h2 className="mb-4 text-xl font-semibold">Related Checks</h2>
+      <div className="grid gap-3 sm:grid-cols-3">
+        {related.map((relatedFeature) => {
+          const relatedIcon = FEATURE_ICONS[relatedFeature.id] ?? '📦';
+          return (
+            <Link
+              key={relatedFeature.id}
+              href={`/features/${relatedFeature.id}`}
+              className="group rounded-lg border border-border p-4 transition-colors hover:bg-muted/50"
+            >
+              <div className="flex items-center gap-2">
+                <span role="img" aria-label={relatedFeature.name}>
+                  {relatedIcon}
+                </span>
+                <span className="font-medium group-hover:underline">
+                  {relatedFeature.name}
+                </span>
+              </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {relatedFeature.shortDescription}
+              </p>
+            </Link>
+          );
+        })}
+      </div>
     </section>
   );
 }
