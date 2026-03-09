@@ -15,9 +15,37 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const title = "Vibe Check";
+const description =
+  "Open source Claude Code plugin that scans AI-generated codebases for hidden production risks across security, payments, auth, and more.";
+const url = "https://vibe-check.cloud";
+
 export const metadata: Metadata = {
-  title: "vibe-check",
-  description: "Open source Claude Code plugin that scans AI-generated codebases for hidden production risks across security, payments, auth, and more.",
+  metadataBase: new URL(url),
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url,
+    siteName: "Vibe Check",
+    images: [
+      {
+        url: "/landing.png",
+        width: 1200,
+        height: 630,
+        alt: "Vibe Check - Production readiness for vibe coders",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/landing.png"],
+  },
 };
 
 export default function RootLayout({

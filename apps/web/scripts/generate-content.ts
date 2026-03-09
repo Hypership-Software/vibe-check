@@ -1,13 +1,13 @@
 import 'dotenv/config';
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
-import { generateAllFeatureContent } from '../services/content-generation.service';
+import { contentGenerationService } from '../services/content-generation.service';
 
 async function main() {
   console.log('Generating feature content...');
   const startTime = Date.now();
 
-  const content = await generateAllFeatureContent();
+  const content = await contentGenerationService.generateAllFeatureContent();
 
   const outputPath = join(process.cwd(), 'lib', 'generated', 'features.json');
   await writeFile(outputPath, JSON.stringify(content, null, 2));

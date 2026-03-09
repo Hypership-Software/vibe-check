@@ -1,13 +1,14 @@
-import { generateObject } from 'ai';
-import { createAnthropic } from '@ai-sdk/anthropic';
+import { generateText, Output } from 'ai';
+import { AnthropicProvider, createAnthropic } from '@ai-sdk/anthropic';
 import { ANTHROPIC_API_KEY } from '@/lib/config';
 import { FeatureContentSchema, FeatureContent } from '@/lib/types/game';
 import { FEATURE_SERVICES } from '@/lib/feature-services';
 import { FEW_SHOT_EXAMPLES } from '@/lib/content/examples';
 
-const anthropic = createAnthropic({ apiKey: ANTHROPIC_API_KEY });
+class ContentGenerationService {
+  private anthropic: AnthropicProvider;
 
-const SYSTEM_PROMPT = `You are writing content for "vibe-check" — a free tool that helps people who built apps with AI (using tools like Cursor, Lovable, Bolt, or ChatGPT) understand what might go wrong before it actually does.
+  private readonly systemPrompt = `You are writing content for "vibe-check" — a free tool that helps people who built apps with AI (using tools like Cursor, Lovable, Bolt, or ChatGPT) understand what might go wrong before it actually does.
 
 Your reader:
 - Built a working app with AI in a few hours or days
@@ -45,81 +46,88 @@ Rules:
 - Statistics should be real and sourced
 - Smart move recommendations should be honest — if a service costs money, say so; if DIY is genuinely fine for small scale, say that too`;
 
-function buildFewShotMessages(): Array<{ role: 'user' | 'assistant'; content: string }> {
-  const messages: Array<{ role: 'user' | 'assistant'; content: string }> = [];
-
-  for (const [featureName, content] of Object.entries(FEW_SHOT_EXAMPLES)) {
-    const featureData = FEATURE_SERVICES[featureName];
-    messages.push({
-      role: 'user',
-      content: buildUserPrompt(featureName, featureData),
-    });
-    messages.push({
-      role: 'assistant',
-      content: JSON.stringify(content, null, 2),
-    });
+  constructor(apiKey: string) {
+    this.anthropic = createAnthropic({ apiKey });
   }
 
-  return messages;
-}
+  private buildUserPrompt(
+    featureName: string,
+    featureData?: { services: string[]; context: string },
+  ): string {
+    const servicesContext = featureData
+      ? `\nKnown services for this feature:\n${featureData.services.map((service) => `- ${service}`).join('\n')}\n\nContext: ${featureData.context}`
+      : '';
 
-function buildUserPrompt(
-  featureName: string,
-  featureData?: { services: string[]; context: string },
-): string {
-  const servicesContext = featureData
-    ? `\nKnown services for this feature:\n${featureData.services.map((service) => `- ${service}`).join('\n')}\n\nContext: ${featureData.context}`
-    : '';
+    return `Generate content for the feature: "${featureName}"${servicesContext}`;
+  }
 
-  return `Generate content for the feature: "${featureName}"${servicesContext}`;
-}
+  private buildFewShotMessages(): Array<{ role: 'user' | 'assistant'; content: string }> {
+    const messages: Array<{ role: 'user' | 'assistant'; content: string }> = [];
 
-export async function generateFeatureContent(featureName: string): Promise<FeatureContent> {
-  const featureData = FEATURE_SERVICES[featureName];
-  const fewShotMessages = buildFewShotMessages();
-
-  const { object } = await generateObject({
-    model: anthropic('claude-sonnet-4-5-20250929'),
-    schema: FeatureContentSchema,
-    system: SYSTEM_PROMPT,
-    messages: [
-      ...fewShotMessages,
-      {
+    for (const [featureName, content] of Object.entries(FEW_SHOT_EXAMPLES)) {
+      const featureData = FEATURE_SERVICES[featureName];
+      messages.push({
         role: 'user',
-        content: buildUserPrompt(featureName, featureData),
-      },
-    ],
-  });
+        content: this.buildUserPrompt(featureName, featureData),
+      });
+      messages.push({
+        role: 'assistant',
+        content: JSON.stringify(content, null, 2),
+      });
+    }
 
-  return object;
-}
-
-export async function generateAllFeatureContent(): Promise<Record<string, FeatureContent>> {
-  const featureNames = Object.keys(FEATURE_SERVICES);
-  const results: Record<string, FeatureContent> = {};
-
-  for (const [featureName, content] of Object.entries(FEW_SHOT_EXAMPLES)) {
-    results[featureName] = content;
+    return messages;
   }
 
-  const featuresToGenerate = featureNames.filter(
-    (featureName) => !FEW_SHOT_EXAMPLES[featureName],
-  );
+  async generateFeatureContent(featureName: string): Promise<FeatureContent> {
+    const featureData = FEATURE_SERVICES[featureName];
+    const fewShotMessages = this.buildFewShotMessages();
 
-  const BATCH_SIZE = 3;
-  for (let i = 0; i < featuresToGenerate.length; i += BATCH_SIZE) {
-    const batch = featuresToGenerate.slice(i, i + BATCH_SIZE);
-    const batchResults = await Promise.all(
-      batch.map(async (featureName) => {
-        const content = await generateFeatureContent(featureName);
-        return { featureName, content };
-      }),
-    );
+    const { output } = await generateText({
+      model: this.anthropic('claude-sonnet-4-5-20250929'),
+      output: Output.object({ schema: FeatureContentSchema }),
+      system: this.systemPrompt,
+      messages: [
+        ...fewShotMessages,
+        {
+          role: 'user',
+          content: this.buildUserPrompt(featureName, featureData),
+        },
+      ],
+    });
 
-    for (const { featureName, content } of batchResults) {
+    return output!;
+  }
+
+  async generateAllFeatureContent(): Promise<Record<string, FeatureContent>> {
+    const featureNames = Object.keys(FEATURE_SERVICES);
+    const results: Record<string, FeatureContent> = {};
+
+    for (const [featureName, content] of Object.entries(FEW_SHOT_EXAMPLES)) {
       results[featureName] = content;
     }
-  }
 
-  return results;
+    const featuresToGenerate = featureNames.filter(
+      (featureName) => !FEW_SHOT_EXAMPLES[featureName],
+    );
+
+    const BATCH_SIZE = 3;
+    for (let i = 0; i < featuresToGenerate.length; i += BATCH_SIZE) {
+      const batch = featuresToGenerate.slice(i, i + BATCH_SIZE);
+      const batchResults = await Promise.all(
+        batch.map(async (featureName) => {
+          const content = await this.generateFeatureContent(featureName);
+          return { featureName, content };
+        }),
+      );
+
+      for (const { featureName, content } of batchResults) {
+        results[featureName] = content;
+      }
+    }
+
+    return results;
+  }
 }
+
+export const contentGenerationService = new ContentGenerationService(ANTHROPIC_API_KEY);

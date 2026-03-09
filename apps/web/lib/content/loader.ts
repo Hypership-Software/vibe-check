@@ -16,11 +16,3 @@ for (const [featureName, rawContent] of Object.entries(
 export function getFeatureContent(featureName: string): FeatureContent | null {
   return parsedContent[featureName] ?? FEW_SHOT_EXAMPLES[featureName] ?? null;
 }
-
-export function getAllFeatureContent(): Record<string, FeatureContent> {
-  return { ...FEW_SHOT_EXAMPLES, ...parsedContent };
-}
-
-export function getAvailableFeatures(): string[] {
-  return Object.keys(getAllFeatureContent());
-}

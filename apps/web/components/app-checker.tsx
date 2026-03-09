@@ -24,6 +24,7 @@ export function AppChecker() {
   const [description, setDescription] = useState('');
   const [selectedTools, setSelectedTools] = useState<Set<Tool>>(new Set());
   const [results, setResults] = useState<RecommendationResult[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -40,10 +41,20 @@ export function AppChecker() {
   }
 
   function handleSubmit() {
+    setError(null);
     startTransition(async () => {
-      const recommendations = await checkApp(description);
-      setResults(recommendations);
-      setShowAll(false);
+      try {
+        const recommendations = await checkApp(
+          description,
+          Array.from(selectedTools)
+        );
+        setResults(recommendations);
+        setShowAll(false);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+        );
+      }
     });
   }
 
@@ -122,6 +133,10 @@ export function AppChecker() {
           >
             {isPending ? 'Analyzing...' : 'Check my app'}
           </Button>
+
+          {error && (
+            <p className="text-sm text-center text-destructive">{error}</p>
+          )}
         </div>
 
         {visibleResults && (

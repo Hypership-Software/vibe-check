@@ -23,9 +23,32 @@ export async function generateMetadata({
   const { id } = await params;
   const feature = FEATURES.find((feature) => feature.id === id);
   if (!feature) return {};
+
+  const title = `${feature.name} - Vibe Check`;
+  const description = feature.shortDescription;
+
   return {
-    title: `${feature.name} - vibe-check`,
-    description: feature.shortDescription,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [
+        {
+          url: "/landing.png",
+          width: 1200,
+          height: 630,
+          alt: `${feature.name} - Vibe Check`,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/landing.png"],
+    },
   };
 }
 

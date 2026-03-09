@@ -3,7 +3,7 @@ import { getFeatureContent } from '@/lib/content/loader';
 
 export type Tool = 'lovable' | 'cursor' | 'bolt' | 'v0' | 'chatgpt' | 'claude-code';
 
-export type ApproachHint = 'service' | 'diy';
+type ApproachHint = 'service' | 'diy';
 
 export interface RecommendationResult {
   featureId: string;
