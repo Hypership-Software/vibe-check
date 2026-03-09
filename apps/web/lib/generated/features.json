@@ -3097,5 +3097,353 @@
       "stat": "Sales teams spend an average of 17% of their time on data entry and CRM updates — that's nearly a full day per week not spent actually selling.",
       "source": "Salesforce State of Sales Report 2024"
     }
+  },
+  "Scheduling": {
+    "dangerZone": {
+      "headline": "A double-booked appointment doesn't just waste time — it destroys trust in your entire platform",
+      "hiddenComplexity": "A booking form looks simple — pick a date, pick a time, click confirm. But behind that form is a nightmare of edge cases: what happens when two people book the same slot at the same millisecond, how recurring appointments interact with holidays and DST changes, how cancellation windows and no-show policies work, timezone conversion when the provider is in New York but the customer is in Tokyo, and buffer time between back-to-back appointments. Every calendar app looks easy until real humans start using it across real timezones.",
+      "failureScenario": "You launch a tutoring marketplace. Bookings work great for the first month. Then Daylight Saving Time hits and every appointment in the affected timezone shifts by an hour. Half your tutors have back-to-back sessions with no break, the other half have phantom gaps. Parents are showing up an hour early or an hour late. You spend a week manually fixing hundreds of bookings while refunding angry customers.",
+      "riskLevel": "high",
+      "timeToBreak": "1-3 months before timezone or concurrency issues surface",
+      "commonMistakes": [
+        "Storing times without timezone info — everything works until your first user is in a different timezone",
+        "No safeguard to prevent two people from booking the same slot at the exact same moment",
+        "Recurring events that don't account for Daylight Saving Time, holidays, or provider schedule changes",
+        "Cancellation and refund logic that doesn't handle edge cases like partial refunds or last-minute cancellations",
+        "No buffer time between appointments — back-to-back bookings with zero transition time"
+      ]
+    },
+    "auditPrompts": {
+      "service": [
+        {
+          "title": "How does your booking service handle concurrent reservations?",
+          "prompt": "Check how the scheduling service (like Calendly, Cal.com, or Acuity) prevents double-bookings. If two users try to book the same slot at the exact same time, what happens? Does it use a first-come-first-served approach to prevent conflicts? Open two browser tabs and try to book the same slot simultaneously — does one get rejected cleanly?",
+          "category": "reliability",
+          "whyItMatters": "Double bookings are the fastest way to lose trust. If your service doesn't handle race conditions, you'll find out from angry users, not from testing."
+        },
+        {
+          "title": "Are timezones handled correctly end-to-end?",
+          "prompt": "Check how times are stored and displayed. Does the booking service store times in a universal standard format (like UTC) and convert them for each user's timezone? If a provider in London sets availability for 2pm, does a user in New York correctly see it as 9am? What happens around Daylight Saving Time transitions — do bookings shift by an hour or stay correct?",
+          "category": "reliability",
+          "whyItMatters": "Timezone bugs are silent — everything looks fine until DST changes or you get your first international user. Then every time displayed in the app could be wrong."
+        },
+        {
+          "title": "What happens when someone cancels or reschedules?",
+          "prompt": "Walk through the cancellation and rescheduling flow. Is there a cancellation window after which refunds aren't available? When someone reschedules, does the original slot immediately become available again? Are both parties notified? Can cancellation be abused (book and cancel repeatedly to block someone's calendar)?",
+          "category": "reliability",
+          "whyItMatters": "Cancellation logic sounds simple but touches payments, notifications, availability, and policy enforcement all at once. Getting any piece wrong creates confusion or lost revenue."
+        },
+        {
+          "title": "Do reminders and notifications fire reliably?",
+          "prompt": "Check the reminder system. Are email/SMS reminders sent at the right times relative to the appointment? What timezone are the reminder times calculated in? If a user reschedules, do the old reminders get cancelled and new ones created? What happens if the notification service is temporarily down — do reminders get retried or silently lost?",
+          "category": "reliability",
+          "whyItMatters": "No-shows often happen because reminders failed. A missed reminder means a wasted slot, lost revenue, and a frustrated provider."
+        }
+      ],
+      "diy": [
+        {
+          "title": "Is your time slot logic race-condition safe?",
+          "prompt": "Look at how available time slots are calculated and reserved. When a user selects a slot, is it locked or held before they complete the booking? If two users submit at the same time, does the database enforce uniqueness (not just the application code)? Show me the database constraint or transaction isolation level that prevents double-bookings.",
+          "category": "reliability",
+          "whyItMatters": "Application-level checks alone aren't enough — under load, two requests can pass the 'is available' check simultaneously. Only database-level constraints guarantee no double-bookings."
+        },
+        {
+          "title": "How are dates and times stored?",
+          "prompt": "Check the database schema for appointment/booking records. Are times stored in a universal format (UTC) with a separate timezone field? When displaying times to users, is the conversion happening on the server or client? What happens if a user's browser timezone doesn't match their profile timezone? Search for any use of new Date() without explicit timezone handling.",
+          "category": "reliability",
+          "whyItMatters": "Storing times in the user's local format instead of a universal standard is a ticking bomb. It works until you have users in multiple timezones or DST changes, then every displayed time could be an hour off."
+        },
+        {
+          "title": "How do recurring appointments work?",
+          "prompt": "If you support recurring bookings, check how they're generated. Are future occurrences pre-created in the database or calculated on the fly? What happens when a recurring appointment falls on a holiday or when the provider marks that day as unavailable? Can individual occurrences be modified without affecting the series? How far into the future are occurrences generated?",
+          "category": "reliability",
+          "whyItMatters": "Recurring events are one of the hardest problems in scheduling. Google Calendar has been working on it for 20 years and still has edge cases. Building it from scratch means inheriting all those edge cases."
+        },
+        {
+          "title": "Can your scheduling handle load?",
+          "prompt": "Check how availability is calculated. Does every request to view available slots query the entire bookings table? Is there caching for provider availability windows? If a popular provider has 1,000 people viewing their calendar simultaneously, how many database queries does that generate? Are availability calculations indexed properly?",
+          "category": "performance",
+          "whyItMatters": "Availability calculations run on every page view of a booking page. Without proper indexing and caching, a popular provider's page becomes unusably slow."
+        }
+      ]
+    },
+    "smartMove": {
+      "recommendation": "use-a-service",
+      "reasoning": "Scheduling looks deceptively simple but hides enormous complexity in timezone handling, concurrency, recurring events, and calendar sync. Services like Cal.com or Calendly have spent years solving these edge cases. Unless scheduling is your core product differentiator, use a service and focus on what makes your app unique.",
+      "services": [
+        {
+          "name": "Cal.com",
+          "description": "Open-source scheduling with embeddable widgets, calendar sync, and extensive API for custom integrations",
+          "freeTier": "Free for individuals, open-source self-host option"
+        },
+        {
+          "name": "Calendly",
+          "description": "Polished booking experience with team scheduling, round-robin assignment, and payment collection built in",
+          "freeTier": "Free tier with one event type and basic integrations"
+        },
+        {
+          "name": "Acuity Scheduling",
+          "description": "Full-featured appointment scheduling with intake forms, packages, and gift certificates — great for service businesses",
+          "freeTier": "7-day free trial, then starts at $16/month"
+        }
+      ],
+      "tradeoffs": "Scheduling services handle the hard parts (timezone math, calendar sync, conflict resolution) but you're limited to their booking flows and UI patterns. Deep customization often requires their highest pricing tiers or building around their API limitations."
+    },
+    "checklist": {
+      "service": [
+        {
+          "item": "Two users cannot book the same time slot simultaneously",
+          "category": "reliability"
+        },
+        {
+          "item": "Times display correctly for users in different timezones",
+          "category": "reliability"
+        },
+        {
+          "item": "Daylight Saving Time transitions don't shift existing bookings",
+          "category": "reliability"
+        },
+        {
+          "item": "Cancellation and rescheduling release the original slot back to availability",
+          "category": "reliability"
+        },
+        {
+          "item": "Reminder notifications fire at the correct time in the user's timezone",
+          "category": "reliability"
+        },
+        {
+          "item": "Provider availability syncs with their external calendar (Google, Outlook)",
+          "category": "reliability"
+        },
+        {
+          "item": "Buffer time between appointments prevents back-to-back overload",
+          "category": "reliability"
+        },
+        {
+          "item": "Booking confirmation emails include the correct timezone-adjusted time",
+          "category": "reliability"
+        },
+        {
+          "item": "Webhook events from the scheduling service are verified before processing",
+          "category": "security"
+        }
+      ],
+      "diy": [
+        {
+          "item": "Two people cannot accidentally book the same time slot, even if they click 'confirm' at the exact same moment",
+          "category": "reliability"
+        },
+        {
+          "item": "All times are stored in a universal format (UTC) with timezone info preserved separately",
+          "category": "reliability"
+        },
+        {
+          "item": "Availability calculations account for Daylight Saving Time transitions correctly",
+          "category": "reliability"
+        },
+        {
+          "item": "Recurring appointments handle holidays and provider schedule exceptions",
+          "category": "reliability"
+        },
+        {
+          "item": "Cancellations within the allowed window trigger automatic refunds",
+          "category": "reliability"
+        },
+        {
+          "item": "Booking pages load quickly even when a provider has months of history",
+          "category": "performance"
+        },
+        {
+          "item": "No-show detection works correctly across timezones",
+          "category": "reliability"
+        },
+        {
+          "item": "Concurrent booking attempts are handled gracefully with clear user feedback",
+          "category": "reliability"
+        },
+        {
+          "item": "Appointment data is backed up and recoverable",
+          "category": "data"
+        }
+      ]
+    },
+    "didYouKnow": {
+      "stat": "23% of customers say they would switch providers after a single scheduling error, and the average no-show rate for appointments without automated reminders is 42% compared to 8% with them.",
+      "source": "Zipwhip Consumer Messaging Report & Journal of Medical Internet Research"
+    }
+  },
+  "Maps & Location": {
+    "dangerZone": {
+      "headline": "A wrong pin on the map doesn't just look bad — it sends real people to the wrong place",
+      "hiddenComplexity": "Dropping a pin on a map looks like one API call. But behind that pin is a world of complexity: geocoding addresses into coordinates (and handling the ones that don't match), calculating accurate distances and ETAs that account for traffic and road type, displaying maps that load fast on slow connections, handling GPS drift and inaccurate location data from phones, managing API rate limits and costs that scale with every map view, and dealing with addresses that exist in the real world but not in any geocoding database.",
+      "failureScenario": "You launch a delivery app. Orders roll in. Then you discover that your geocoding service interprets '123 Main St' differently in every city — some deliveries go to the right address in the wrong city. Drivers are calling customers to figure out where they actually are. Your ETA estimates assume straight-line distance, so a 5-minute delivery across a river with no bridge becomes a 30-minute detour. Customers see '5 min away' while their food gets cold.",
+      "riskLevel": "high",
+      "timeToBreak": "2-4 weeks after launch in a new geographic area",
+      "commonMistakes": [
+        "Using straight-line distance ('as the crow flies') instead of actual driving/walking distance",
+        "Not handling address ambiguity — '123 Main St' exists in thousands of cities and the app picks one without asking",
+        "Ignoring how costs scale — every map view and address lookup costs money, and it adds up fast with real traffic",
+        "Trusting the location your users' phones report as exact — it can be off by 50+ meters in cities with tall buildings",
+        "Relying on a single map provider with no backup plan — one outage takes down your entire location feature"
+      ]
+    },
+    "auditPrompts": {
+      "service": [
+        {
+          "title": "How much are your map API calls actually costing?",
+          "prompt": "Check your map provider's (Google Maps, Mapbox, etc.) billing dashboard. How many API calls are you making per user session? Are map tiles being cached or re-fetched on every page load? Is geocoding happening client-side (billable per request) when it could be cached server-side? Calculate the cost per active user per month at your current usage pattern and project it to 10x users.",
+          "category": "cost",
+          "whyItMatters": "Map APIs charge per request and costs grow linearly with traffic. A single page that loads a map, geocodes an address, and calculates a route can cost $0.02-0.05 per view. At 10,000 daily users, that's $200-500/month just for maps."
+        },
+        {
+          "title": "How does your app handle bad or ambiguous addresses?",
+          "prompt": "Test your geocoding with tricky inputs: an address that exists in multiple cities, a misspelled street name, a PO Box, an apartment with a unit number, and an address in a rural area with no street number. Does your app show the user which location was matched so they can confirm? What happens when geocoding returns zero results — does the user see a helpful error or a broken map?",
+          "category": "reliability",
+          "whyItMatters": "Real-world addresses are messy. Roughly 10-15% of addresses won't geocode cleanly on the first try. If your app silently picks the wrong match, users end up at the wrong location with no idea why."
+        },
+        {
+          "title": "Do your maps work well on mobile and slow connections?",
+          "prompt": "Test your map on a real phone with a throttled connection (3G speed). How long does the map take to become interactive? Are you loading the full map SDK on pages that only need a static map image? Do map tiles load progressively or does the user stare at a grey box? Is the map touch-friendly — can users pinch to zoom and drag to pan without accidentally triggering other UI elements?",
+          "category": "performance",
+          "whyItMatters": "Maps are the heaviest assets on most pages. The Google Maps JavaScript SDK alone is 200KB+. On mobile with a slow connection, an unoptimized map can make your entire page feel broken."
+        },
+        {
+          "title": "Is user location data handled safely?",
+          "prompt": "Check what location data you're storing about users. Are you logging exact GPS coordinates with timestamps (which creates a movement history)? Is location data encrypted at rest? Do you have a retention policy — are you keeping location history forever? If a user deletes their account, is their location history actually deleted? Does your privacy policy mention location tracking?",
+          "category": "data",
+          "whyItMatters": "Location data is among the most sensitive personal information. A leaked database with timestamped GPS coordinates reveals where every user lives, works, and goes — creating serious safety and legal liability."
+        }
+      ],
+      "diy": [
+        {
+          "title": "Are your distance and ETA calculations accurate?",
+          "prompt": "Check how your app calculates distances between points. Are you using straight-line distance ('as the crow flies') or actual road-based routing? If you're showing ETAs, do they account for the mode of transport (driving vs walking vs cycling)? Test a route that requires crossing a river, highway, or one-way street system — does the estimate match reality? Are you caching route calculations or hitting the API on every request?",
+          "category": "reliability",
+          "whyItMatters": "Straight-line distance can be 2-5x shorter than actual travel distance in cities with rivers, highways, or one-way streets. Showing inaccurate ETAs destroys user trust fast."
+        },
+        {
+          "title": "How do you handle GPS accuracy and drift?",
+          "prompt": "Check how your app processes location data from device GPS. Are you filtering out obviously wrong coordinates (like sudden jumps of hundreds of meters)? Do you show accuracy radius to users or just a dot? In areas with poor GPS (urban canyons, indoors), does your app gracefully degrade or show a wildly bouncing marker? If you're tracking movement (delivery, ride-sharing), how do you smooth the path?",
+          "category": "reliability",
+          "whyItMatters": "Phone GPS can be off by 5-50 meters depending on environment. In downtown areas with tall buildings, it can jump erratically. Without smoothing and accuracy handling, your location features look unreliable."
+        },
+        {
+          "title": "Can your map infrastructure handle scale?",
+          "prompt": "Check how map data flows through your system. Are map tiles served from your own server or a CDN? How many markers can your map render before it starts lagging — test with 100, 1000, and 10,000 points? Are you using marker clustering for dense areas? If you're rendering custom map overlays, do they update efficiently when the user pans and zooms?",
+          "category": "performance",
+          "whyItMatters": "Maps with thousands of markers will freeze the browser. Without clustering, zoom-level filtering, or viewport-based loading, your map becomes unusable as your data grows."
+        },
+        {
+          "title": "What happens when the map API is down or rate-limited?",
+          "prompt": "Check your app's behavior when the map provider is unavailable. Temporarily block the map API domain and see what happens — does the page crash, show a blank area, or degrade gracefully? Do you have a fallback for geocoding if the primary provider hits rate limits? Are API keys stored securely and rotated, or hardcoded in client-side code where anyone can steal them?",
+          "category": "reliability",
+          "whyItMatters": "Map APIs have outages and rate limits. If your entire app depends on one provider with no fallback, a 30-minute API outage means 30 minutes of a broken app for all your users."
+        }
+      ]
+    },
+    "smartMove": {
+      "recommendation": "depends",
+      "reasoning": "If you just need to show a map with pins and basic geocoding, a service like Google Maps or Mapbox with their SDKs is the clear choice. But if location is your core product (delivery routing, fleet tracking, real estate search), you'll likely need a combination of services with custom logic on top. The key decision is how much location intelligence lives in your code vs. in API calls.",
+      "services": [
+        {
+          "name": "Mapbox",
+          "description": "Developer-friendly maps with beautiful customizable styles, geocoding, routing, and generous free tier — great for apps where the map is a key feature",
+          "freeTier": "50,000 map loads and 100,000 geocoding requests per month free"
+        },
+        {
+          "name": "Google Maps Platform",
+          "description": "The most comprehensive mapping platform with the best global data coverage, Places API, and Street View — the safe default choice",
+          "freeTier": "$200 monthly credit (covers ~28,000 map loads or ~40,000 geocoding requests)"
+        },
+        {
+          "name": "Radar",
+          "description": "Modern geofencing and location tracking API built for mobile apps — great for delivery, logistics, and location-triggered features",
+          "freeTier": "100,000 API calls per month free"
+        }
+      ],
+      "tradeoffs": "Map APIs charge per request and costs can grow surprisingly fast. Google Maps is the most reliable but also the most expensive at scale. Mapbox offers better pricing and customization but has weaker coverage in some regions. Switching providers later means rewriting all your map UI and location logic."
+    },
+    "checklist": {
+      "service": [
+        {
+          "item": "Map API keys are restricted by domain/IP and not exposed in client-side source code",
+          "category": "security"
+        },
+        {
+          "item": "Geocoding results are cached to reduce API costs and improve response times",
+          "category": "performance"
+        },
+        {
+          "item": "Ambiguous addresses prompt the user to confirm the correct location",
+          "category": "reliability"
+        },
+        {
+          "item": "Maps load progressively and don't block the rest of the page",
+          "category": "performance"
+        },
+        {
+          "item": "Distance/ETA calculations use road distance, not straight-line",
+          "category": "reliability"
+        },
+        {
+          "item": "The app degrades gracefully if the map provider is temporarily unavailable",
+          "category": "reliability"
+        },
+        {
+          "item": "Location data stored about users has a defined retention policy",
+          "category": "data"
+        },
+        {
+          "item": "Map API usage is monitored with alerts for unusual spikes in cost",
+          "category": "cost"
+        },
+        {
+          "item": "Maps are usable and performant on mobile devices with slow connections",
+          "category": "performance"
+        }
+      ],
+      "diy": [
+        {
+          "item": "Location data from phones is checked for obviously wrong values (like sudden jumps) before being used",
+          "category": "reliability"
+        },
+        {
+          "item": "Large numbers of map markers use clustering to maintain performance",
+          "category": "performance"
+        },
+        {
+          "item": "Estimated arrival times use actual road distances, not straight-line 'as the crow flies' math",
+          "category": "reliability"
+        },
+        {
+          "item": "Map images are served from a fast global network (CDN), not your own server",
+          "category": "performance"
+        },
+        {
+          "item": "Map API keys are stored on your server and never visible in the browser where anyone could copy them",
+          "category": "security"
+        },
+        {
+          "item": "Location tracking respects user permission and provides clear opt-out",
+          "category": "data"
+        },
+        {
+          "item": "Fallback behavior exists for when the primary map API is unavailable or rate-limited",
+          "category": "reliability"
+        },
+        {
+          "item": "Stored location data is encrypted at rest and access-logged",
+          "category": "security"
+        },
+        {
+          "item": "Map rendering stays smooth with large datasets (tested with 1000+ markers)",
+          "category": "performance"
+        }
+      ]
+    },
+    "didYouKnow": {
+      "stat": "Google Maps API pricing increased by 1,400% overnight in 2018, forcing thousands of apps to scramble for alternatives. The average app with maps spends $0.007 per geocoding request — which sounds tiny until you multiply by millions of requests.",
+      "source": "TechCrunch & Google Maps Platform Pricing Documentation"
+    }
   }
 }

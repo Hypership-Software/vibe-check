@@ -156,4 +156,22 @@ export const FEATURE_SERVICES: Record<string, { services: string[]; context: str
     ],
     context: 'A spreadsheet works surprisingly long. When you need deal stages, activity tracking, and team collaboration, a real CRM saves time. The question is how much process you actually need.',
   },
+  'Scheduling': {
+    services: [
+      'Cal.com - open source, embeddable, extensive API',
+      'Calendly - polished UX, team scheduling, payment collection',
+      'Acuity Scheduling - great for service businesses, intake forms',
+      'SavvyCal - modern, overlay calendars for easy coordination',
+    ],
+    context: 'Scheduling looks like a simple date picker until you hit timezones, recurring events, DST transitions, double-booking prevention, and calendar sync. The edge cases multiply fast.',
+  },
+  'Maps & Location': {
+    services: [
+      'Mapbox - developer-friendly, customizable styles, generous free tier',
+      'Google Maps Platform - best global coverage, Places API, Street View',
+      'Radar - modern geofencing and location tracking for mobile',
+      'Leaflet + OpenStreetMap - free, open source, self-hostable',
+    ],
+    context: 'Dropping a pin on a map is one API call. Accurate geocoding, real driving distances, cost management at scale, and handling messy real-world addresses is where the complexity lives.',
+  },
 };

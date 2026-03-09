@@ -86,4 +86,14 @@ export const FEATURES: Feature[] = [
     name: 'CRM',
     shortDescription: 'Track leads, deals, and customer relationships',
   },
+  {
+    id: 'scheduling',
+    name: 'Scheduling',
+    shortDescription: 'Bookings, appointments, and calendar management',
+  },
+  {
+    id: 'maps',
+    name: 'Maps & Location',
+    shortDescription: 'Geolocation, mapping, and location-based features',
+  },
 ];

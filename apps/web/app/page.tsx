@@ -1,7 +1,6 @@
 import { SiteHeader } from '@/components/game/game-header';
 import { HeroSection } from '@/components/hero-section';
 import { AppChecker } from '@/components/app-checker';
-import { FeatureGrid } from '@/components/feature-grid';
 
 export default function Home() {
   return (
@@ -11,7 +10,6 @@ export default function Home() {
       <main className="flex-1">
         <HeroSection />
         <AppChecker />
-        <FeatureGrid />
       </main>
 
       <footer className="border-t border-border px-6 py-8">

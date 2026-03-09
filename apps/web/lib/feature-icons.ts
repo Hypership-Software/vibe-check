@@ -16,4 +16,6 @@ export const FEATURE_ICONS: Record<string, string> = {
   'comments': '💬',
   'support': '🎧',
   'crm': '🤝',
+  'scheduling': '📅',
+  'maps': '📍',
 };

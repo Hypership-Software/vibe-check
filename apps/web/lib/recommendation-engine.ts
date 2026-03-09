@@ -94,6 +94,18 @@ const KEYWORD_MAP: Record<string, string[]> = {
     'crm', 'lead', 'leads', 'deal', 'pipeline', 'sales', 'prospect',
     'contact management', 'customer relationship', 'outreach', 'follow up',
   ],
+  scheduling: [
+    'booking', 'appointment', 'calendar', 'schedule', 'reservation',
+    'availability', 'time slot', 'timeslot', 'reschedule', 'meeting',
+    'session', 'class', 'event', 'recurring', 'dentist', 'doctor',
+    'salon', 'spa', 'tutor', 'coach', 'consultant', 'therapist',
+  ],
+  maps: [
+    'map', 'location', 'geolocation', 'gps', 'address', 'directions',
+    'nearby', 'distance', 'route', 'delivery', 'tracking', 'fleet',
+    'store locator', 'geocode', 'latitude', 'longitude', 'places',
+    'restaurant', 'driver', 'ride', 'pickup', 'dropoff',
+  ],
 };
 
 const ALWAYS_INCLUDE: Set<string> = new Set(['auth', 'monitoring']);
