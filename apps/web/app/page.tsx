@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { SiteHeader } from '@/components/game/game-header';
 import { SiteFooter } from '@/components/site-footer';
 import { HeroSection } from '@/components/hero-section';
+import { HarnessLogos } from '@/components/harness-logos';
+import { CommandsCheatsheet } from '@/components/commands-cheatsheet';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const AppChecker = dynamic(() =>
@@ -10,6 +12,9 @@ const AppChecker = dynamic(() =>
 );
 const FaqSection = dynamic(() =>
   import('@/components/faq-section').then((mod) => mod.FaqSection)
+);
+const InstallSection = dynamic(() =>
+  import('@/components/install-section').then((mod) => mod.InstallSection)
 );
 import {
   getWebsiteJsonLd,
@@ -45,6 +50,7 @@ export default function Home() {
 
       <main id="main-content" className="flex-1">
         <HeroSection />
+        <HarnessLogos />
         <AppChecker />
 
         <section className="mx-auto max-w-4xl px-6 py-16">
@@ -81,6 +87,8 @@ export default function Home() {
           </div>
         </section>
 
+        <InstallSection />
+        <CommandsCheatsheet />
         <FaqSection faqs={HOME_FAQS} />
       </main>
 
