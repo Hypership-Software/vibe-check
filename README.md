@@ -84,7 +84,7 @@ Use `PROJECT-PLAN.md` as context for Claude Code, Cursor, or your tool of choice
 The system:
 1. **Asks context** — What you're building, who it's for, what data you handle, what's at stake
 2. **Maps your codebase** — Spawns an agent to analyze secrets, auth, errors, dependencies, infrastructure, and detect capabilities (database, auth, analytics, etc.)
-3. **Assesses domains** — Parallel agents evaluate security, discoverability, analytics, platform, reliability, legal (calibrated to your context). Domains that don't apply are automatically skipped.
+3. **Assesses domains** — Parallel agents evaluate security, performance, accessibility, testing, monitoring, CI/CD, discoverability, analytics, reliability, and legal (calibrated to your context). Domains that don't apply are automatically skipped.
 4. **Writes results** — Score, report, prioritized action plan
 
 You get a score out of 100 and a clear breakdown of what needs attention. Small codebases (<50 files) get a fast-path mapper that cuts assessment time significantly.
@@ -177,9 +177,10 @@ Each checklist item includes:
 
 | Score | Band | Meaning |
 |-------|------|---------|
-| 70-100 | **Ready** | Production-ready with minor improvements |
-| 40-69 | **Needs Work** | Significant gaps to address |
-| 0-39 | **Not Ready** | Critical issues that must be fixed |
+| 90-100 | **Production Ready** | Enterprise and scale concerns addressed. Safe for high-traffic or regulated environments. |
+| 75-89 | **Launch Ready** | Safe to put in front of early users. Core security, reliability, and legal bases covered. |
+| 60-74 | **Needs Work** | Functional but has gaps that will bite you. Missing monitoring, testing, or security hardening. |
+| 0-59 | **Early Stage** | Prototype territory. Multiple critical domains unaddressed. Not safe for real users. |
 
 Domains and items that don't apply to your project (no database, no analytics, etc.) are automatically marked **N/A** and excluded from scoring — so your score reflects reality for *your* project type. If any Critical-priority item is failing, the band is capped at "Needs Work" regardless of score.
 
@@ -187,42 +188,57 @@ Domains and items that don't apply to your project (no database, no analytics, e
 
 ## What Gets Assessed
 
-### Security
-- Secrets management (hardcoded keys, .env handling)
-- Authentication patterns
-- Input validation
-- Dependency vulnerabilities
-- HTTPS configuration
+### Security (15 pts)
+- Secrets management, authentication, input validation
+- Dependency vulnerabilities, HTTPS
+- Security headers, CORS, rate limiting, CSRF protection
 
-### Discoverability
-- Meta tags (title, description)
-- OpenGraph tags for social sharing
-- Twitter cards
-- Sitemap and robots.txt
-- Semantic HTML structure
+### Performance (12 pts)
+- Image optimization, code splitting & lazy loading
+- Data fetching & caching, font optimization
+- Database query performance
 
-### Analytics
-- Visitor tracking setup
-- Error tracking (Sentry, etc.)
-- Conversion event tracking
+### Accessibility (12 pts)
+- Image alt text, form label association
+- Keyboard navigation & focus management
+- ARIA & semantic HTML, motion accessibility
 
-### Platform
-- Hosting compatibility
-- Complexity check (over-engineering signals)
-- Cost trap patterns
-- Managed service opportunities
+### Testing (10 pts)
+- Test runner configured, test files exist
+- E2E testing setup, tests run in CI
 
-### Reliability
-- Backup configuration
-- Error handling patterns
+### Monitoring (10 pts)
+- Error tracking (Sentry, etc.), structured logging
+- Health check endpoints, APM
+
+### CI/CD (10 pts)
+- CI pipeline, build verification
+- Database migration strategy, environment separation
+
+### Discoverability (10 pts)
+- Meta tags, OpenGraph, Twitter cards
+- Sitemap, robots.txt, semantic HTML
+
+### Analytics (8 pts)
+- Visitor tracking, conversion tracking
+
+### Reliability (8 pts)
+- Backup configuration, error handling
 - Database connection management
-- Health check endpoints
 
-### Legal
-- Privacy policy
-- Terms of service
-- Cookie consent
-- User data deletion capability
+### Legal (5 pts)
+- Privacy policy, terms of service
+- Cookie consent, user data deletion
+
+### Platform (informational)
+- Hosting compatibility, complexity check
+- Cost signals, managed services
+- *Advisory only — does not affect score*
+
+### AI Security (12 pts, conditional)
+- Prompt injection, function calling safety
+- WebSocket origin, plugin security, context isolation
+- *Only assessed if AI patterns detected*
 
 ---
 
@@ -311,13 +327,15 @@ We run vibe-check on itself. Here's the result:
 <div align="center">
 
 [![Vibe Check Score](https://img.shields.io/badge/Vibe_Check-100%2F100-22c55e?style=for-the-badge&logo=checkmarx&logoColor=white)](/.vibe-check/)
-[![Status](https://img.shields.io/badge/Status-✓_Ready-22c55e?style=for-the-badge)](/.vibe-check/summary.md)
+[![Status](https://img.shields.io/badge/Status-✓_Production_Ready-22c55e?style=for-the-badge)](/.vibe-check/summary.md)
 
 | | |
 |:--|:--|
-| ![Security](https://img.shields.io/badge/Security-20%2F20-22c55e?style=flat-square) | ![Discoverability](https://img.shields.io/badge/Discoverability-15%2F15-22c55e?style=flat-square) |
-| ![Analytics](https://img.shields.io/badge/Analytics-15%2F15-22c55e?style=flat-square) | ![Platform](https://img.shields.io/badge/Platform-20%2F20-22c55e?style=flat-square) |
-| ![Reliability](https://img.shields.io/badge/Reliability-20%2F20-22c55e?style=flat-square) | ![Legal](https://img.shields.io/badge/Legal-10%2F10-22c55e?style=flat-square) |
+| ![Security](https://img.shields.io/badge/Security-15%2F15-22c55e?style=flat-square) | ![Performance](https://img.shields.io/badge/Performance-12%2F12-22c55e?style=flat-square) |
+| ![Accessibility](https://img.shields.io/badge/Accessibility-12%2F12-22c55e?style=flat-square) | ![Testing](https://img.shields.io/badge/Testing-10%2F10-22c55e?style=flat-square) |
+| ![Monitoring](https://img.shields.io/badge/Monitoring-10%2F10-22c55e?style=flat-square) | ![CI/CD](https://img.shields.io/badge/CI%2FCD-10%2F10-22c55e?style=flat-square) |
+| ![Discoverability](https://img.shields.io/badge/Discoverability-10%2F10-22c55e?style=flat-square) | ![Analytics](https://img.shields.io/badge/Analytics-8%2F8-22c55e?style=flat-square) |
+| ![Reliability](https://img.shields.io/badge/Reliability-8%2F8-22c55e?style=flat-square) | ![Legal](https://img.shields.io/badge/Legal-5%2F5-22c55e?style=flat-square) |
 
 </div>
 
