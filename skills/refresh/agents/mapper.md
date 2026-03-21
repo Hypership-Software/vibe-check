@@ -37,7 +37,7 @@ Each assessor loads relevant analysis files when evaluating their domain:
 | Security        | secrets.md, auth.md, dependencies.md             |
 | Discoverability | discoverability.md, stack.md                     |
 | Analytics       | analytics.md                                     |
-| Platform        | stack.md, infrastructure.md, integrations.md     |
+| Platform        | stack.md, infrastructure.md, integrations.md, platform.md |
 | Reliability     | error-handling.md, data.md, integrations.md      |
 | Legal           | legal.md, data.md                                |
 | AI Security     | ai-security.md, auth.md, integrations.md         |

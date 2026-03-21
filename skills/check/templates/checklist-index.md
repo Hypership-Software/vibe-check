@@ -104,8 +104,8 @@ LOW  ○
 |------|--------|----------|-------|
 | [Image Alt Text](./item-021-image-alt-text.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
 | [Form Label Association](./item-022-form-labels.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
-| [Keyboard Navigation & Focus Management](./item-023-keyboard-nav.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
-| [ARIA & Semantic HTML](./item-024-aria-semantic.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
+| [Keyboard Navigation & Focus Management](./item-023-keyboard-navigation.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
+| [ARIA & Semantic HTML](./item-024-aria-semantic-html.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
 | [Motion & Animation Accessibility](./item-025-motion-accessibility.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
 
 ### Testing
@@ -123,7 +123,7 @@ LOW  ○
 |------|--------|----------|-------|
 | [Error Tracking](./item-030-error-tracking.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
 | [Structured Logging](./item-031-structured-logging.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
-| [Health Check Endpoint](./item-032-health-check.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
+| [Health Check Endpoint](./item-032-health-checks.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
 | [Application Performance Monitoring](./item-033-apm.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
 
 ### CI/CD
@@ -133,7 +133,7 @@ LOW  ○
 | [CI Pipeline Exists](./item-034-ci-pipeline.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
 | [Build Verification in CI](./item-035-build-verification.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
 | [Database Migration Strategy](./item-036-db-migrations.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
-| [Environment Separation](./item-037-env-separation.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
+| [Environment Separation](./item-037-environment-separation.md) | {✓/✗/?} | {◆/●/◐/○} | {⚡/½/—} |
 
 ### Analytics
 

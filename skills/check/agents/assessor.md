@@ -684,7 +684,7 @@ Return score contributions for metadata.json:
 ```yaml
 domain_scores:
   security:
-    max: 20
+    max: 15
     earned: 12
     applicableItems: 4
     totalItems: 5
