@@ -115,12 +115,12 @@ export function InstallSection() {
             hidden={activeTab !== 'claude-code'}
           >
             <p className="mb-4 text-sm text-muted-foreground">
-              Installs vibe-check as a native Claude Code plugin with slash commands.
+              Installs vibe-check as native Claude Code skills with slash commands.
             </p>
-            <CodeBlock command="npx vibe-check-cc" />
+            <CodeBlock command="npx skills add kylerd/vibe-check" />
             <p className="mt-4 text-sm text-muted-foreground">
               After installation, use{' '}
-              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">/vibe-check:check</code>{' '}
+              <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">/check</code>{' '}
               to run your first assessment.
             </p>
           </div>

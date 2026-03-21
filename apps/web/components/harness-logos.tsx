@@ -1,13 +1,16 @@
-const HARNESSES = [
-  { name: 'Claude Code', short: 'Claude Code' },
-  { name: 'Cursor', short: 'Cursor' },
-  { name: 'Gemini CLI', short: 'Gemini CLI' },
-  { name: 'Codex CLI', short: 'Codex CLI' },
-  { name: 'VS Code Copilot', short: 'Copilot' },
-  { name: 'Kiro', short: 'Kiro' },
-  { name: 'OpenCode', short: 'OpenCode' },
-  { name: 'Antigravity', short: 'Antigravity' },
-  { name: 'Pi', short: 'Pi' },
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+
+const HARNESSES: Array<{ name: string; logo: string; needsDarkBg?: boolean }> = [
+  { name: 'Claude Code', logo: '/claude-logo.png' },
+  { name: 'Cursor', logo: '/cursor-logo.png' },
+  { name: 'Gemini CLI', logo: '/gemini-logo.png' },
+  { name: 'Codex CLI', logo: '/codex-logo.png' },
+  { name: 'VS Code Copilot', logo: '/copilot-logo.png' },
+  { name: 'Kiro', logo: '/kiro-logo.png' },
+  { name: 'OpenCode', logo: '/opencode-logo.png' },
+  { name: 'Antigravity', logo: '/antigravity-logo.png' },
+  { name: 'Pi', logo: '/pi-logo.svg', needsDarkBg: true },
 ];
 
 export function HarnessLogos() {
@@ -20,17 +23,31 @@ export function HarnessLogos() {
         Works with your favorite AI coding tool
       </p>
       <ul
-        className="flex flex-wrap items-center justify-center gap-3"
+        className="flex flex-wrap items-center justify-center gap-6 sm:gap-8"
         aria-label="Supported AI coding harnesses"
       >
         {HARNESSES.map((harness) => (
           <li key={harness.name}>
-            <span
-              className="inline-flex items-center rounded-md border border-border bg-muted/40 px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:border-foreground/30 hover:bg-muted hover:text-foreground"
+            <div
+              className="group flex flex-col items-center gap-2"
               aria-label={harness.name}
             >
-              {harness.short}
-            </span>
+              <div className={cn(
+                "relative h-10 w-10 grayscale opacity-60 transition-all duration-200 ease-out group-hover:grayscale-0 group-hover:opacity-100 sm:h-12 sm:w-12",
+                harness.needsDarkBg && "rounded-lg bg-neutral-800 p-1.5"
+              )}>
+                <Image
+                  src={harness.logo}
+                  alt={harness.name}
+                  fill
+                  className="object-contain"
+                  sizes="48px"
+                />
+              </div>
+              <span className="text-[11px] font-medium text-muted-foreground transition-colors duration-200 group-hover:text-foreground">
+                {harness.name}
+              </span>
+            </div>
           </li>
         ))}
       </ul>

@@ -11,10 +11,10 @@ const DOMAINS = [
 ];
 
 const TERMINAL_LINES = [
-  { type: 'command', text: '$ npx vibe-check-cc' },
-  { type: 'info', text: 'Installing vibe-check as Claude Code plugin...' },
+  { type: 'command', text: '$ npx skills add kylerd/vibe-check' },
+  { type: 'info', text: 'Installed 8 skills to .claude/skills/vibe-check/' },
   { type: 'blank', text: '' },
-  { type: 'command', text: '$ claude /vibe-check:check' },
+  { type: 'command', text: '$ claude /check' },
   { type: 'info', text: 'Mapping codebase and running assessment...' },
   { type: 'blank', text: '' },
   { type: 'header', text: 'Security' },
@@ -27,7 +27,7 @@ const TERMINAL_LINES = [
   { type: 'high', text: '  WARN  No health check endpoint' },
   { type: 'blank', text: '' },
   { type: 'summary', text: 'Score: 34/100 — Critical issues blocking deployment' },
-  { type: 'info', text: 'Run /vibe-check:fix to auto-fix 4 items' },
+  { type: 'info', text: 'Run /fix to review and apply 4 fixable items' },
 ] as const;
 
 export function HeroSection() {
@@ -35,7 +35,7 @@ export function HeroSection() {
     <section className="mx-auto max-w-4xl px-6 pt-20 pb-16">
       <div className="flex flex-col items-center text-center">
         <Badge variant="secondary" className="mb-6 rounded-full px-3 py-1">
-          Open source Claude Code plugin
+          Open source &middot; Works on 9 AI coding tools
         </Badge>
 
         <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
@@ -49,19 +49,15 @@ export function HeroSection() {
         <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
           <strong>vibe-check</strong> scans AI-generated codebases for hidden production risks
           across security, payments, auth, and more — then gives you the prompts
-          to fix them. Built for <em>vibe coders</em> using Cursor, Lovable, Bolt, v0, and Claude Code.
+          to fix them. Works inside Claude Code, Cursor, Gemini CLI, Copilot, and more.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Button size="lg" asChild>
-            <a
-              href="https://github.com/KylerD/vibe-check"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Install the CLI
+            <a href="#install">
+              Get Started
               <svg aria-hidden="true" className="ml-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
               </svg>
             </a>
           </Button>
