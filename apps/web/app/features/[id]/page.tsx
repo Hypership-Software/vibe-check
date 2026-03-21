@@ -81,7 +81,7 @@ export default async function FeaturePage({
   const articleJsonLd = getFeatureArticleJsonLd(feature, content ?? undefined);
   const breadcrumbJsonLd = getBreadcrumbJsonLd([
     { name: 'Vibe Check', url: baseUrl },
-    { name: 'Features', url: `${baseUrl}/#check-your-app` },
+    { name: 'Features', url: `${baseUrl}/features` },
     { name: feature.name, url: `${baseUrl}/features/${id}` },
   ]);
 
@@ -113,7 +113,7 @@ export default async function FeaturePage({
               </li>
               <li aria-hidden="true">/</li>
               <li>
-                <Link href="/#check-your-app" className="transition-colors hover:text-foreground">
+                <Link href="/features" className="transition-colors hover:text-foreground">
                   Features
                 </Link>
               </li>

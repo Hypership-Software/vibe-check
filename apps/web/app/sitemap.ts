@@ -21,6 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 1,
     },
+    {
+      url: `${baseUrl}/features`,
+      lastModified: contentDate,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
     ...featurePages,
   ];
 }
