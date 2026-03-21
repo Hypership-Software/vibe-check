@@ -29,7 +29,7 @@ export async function generateMetadata({
 
   const content = getFeatureContent(feature.name);
   const title = `${feature.name} Checklist for AI-Built Apps`;
-  const description = `${feature.shortDescription}. Learn the hidden risks, common mistakes, and production readiness checklist for ${feature.name.toLowerCase()} in vibe-coded apps. Scan your app free.`;
+  const description = `Vibe coding ${feature.name.toLowerCase()}? AI tools like Cursor and Lovable miss critical production risks. Free ${feature.name.toLowerCase()} checklist for AI-built apps.`;
 
   return {
     title,
@@ -135,6 +135,13 @@ export default async function FeaturePage({
               <p className="text-muted-foreground">{feature.shortDescription}</p>
             </div>
           </header>
+
+          <p className="mb-8 text-muted-foreground">
+            When you vibe code {feature.name.toLowerCase()} with tools like Cursor,
+            Lovable, Bolt, v0, or Claude Code, the generated code often works in
+            development but misses critical production requirements. This checklist
+            helps you catch what AI missed before you ship.
+          </p>
 
           {!content ? (
             <Card>
