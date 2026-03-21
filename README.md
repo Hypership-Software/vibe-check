@@ -1,13 +1,13 @@
 <div align="center">
 
 ```txt
- __     __  ______  _______   ________         ______   __    __  ________   ______   __    __ 
+ __     __  ______  _______   ________         ______   __    __  ________   ______   __    __
 |  \   |  \|      \|       \ |        \       /      \ |  \  |  \|        \ /      \ |  \  /  \
 | $$   | $$ \$$$$$$| $$$$$$$\| $$$$$$$$      |  $$$$$$\| $$  | $$| $$$$$$$$|  $$$$$$\| $$ /  $$
-| $$   | $$  | $$  | $$__/ $$| $$__          | $$   \$$| $$__| $$| $$__    | $$   \$$| $$/  $$ 
- \$$\ /  $$  | $$  | $$    $$| $$  \         | $$      | $$    $$| $$  \   | $$      | $$  $$  
-  \$$\  $$   | $$  | $$$$$$$\| $$$$$         | $$   __ | $$$$$$$$| $$$$$   | $$   __ | $$$$$\  
-   \$$ $$   _| $$_ | $$__/ $$| $$_____       | $$__/  \| $$  | $$| $$_____ | $$__/  \| $$ \$$\ 
+| $$   | $$  | $$  | $$__/ $$| $$__          | $$   \$$| $$__| $$| $$__    | $$   \$$| $$/  $$
+ \$$\ /  $$  | $$  | $$    $$| $$  \         | $$      | $$    $$| $$  \   | $$      | $$  $$
+  \$$\  $$   | $$  | $$$$$$$\| $$$$$         | $$   __ | $$$$$$$$| $$$$$   | $$   __ | $$$$$\
+   \$$ $$   _| $$_ | $$__/ $$| $$_____       | $$__/  \| $$  | $$| $$_____ | $$__/  \| $$ \$$\
     \$$$   |   $$ \| $$    $$| $$     \       \$$    $$| $$  | $$| $$     \ \$$    $$| $$  \$$\
      \$     \$$$$$$ \$$$$$$$  \$$$$$$$$        \$$$$$$  \$$   \$$ \$$$$$$$$  \$$$$$$  \$$   \$$
 ```
@@ -21,10 +21,10 @@
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 
 ```bash
-npx vibe-check-cc
+npx skills add kylerd/vibe-check
 ```
 
-Works on Mac, Windows, and Linux.
+Works with **Claude Code**, **Cursor**, **Gemini CLI**, **Codex CLI**, **VS Code Copilot**, **Kiro**, **OpenCode**, **Antigravity**, and **Pi**.
 
 </div>
 
@@ -41,10 +41,10 @@ I keep running into founders who vibe-coded their way to a working prototype and
 
 Vibe Check covers the full journey:
 
-- **`/vibe-check:idea`** — Validate your idea with an experienced founder perspective. Is this worth building?
-- **`/vibe-check:plan`** — Plan the build. Easy questions in, detailed spec out — optimized for AI coding tools.
-- **`/vibe-check:check`** — Assess production readiness. Prioritized findings with plain-language fix instructions.
-- **`/vibe-check:fix`** — Auto-fix agent-doable issues with verified, atomic commits.
+- **`/idea`** — Validate your idea with an experienced founder perspective. Is this worth building?
+- **`/plan`** — Plan the build. Easy questions in, detailed spec out — optimized for AI coding tools.
+- **`/check`** — Assess production readiness. Prioritized findings with plain-language fix instructions.
+- **`/fix`** — Review findings and apply fixes with your approval.
 
 It's founder-focused. It knows the difference between "enterprise best practice" and "good enough to get in front of users."
 
@@ -58,7 +58,7 @@ It's founder-focused. It knows the difference between "enterprise best practice"
 #### 1. Validate Your Idea
 
 ```
-/vibe-check:idea
+/idea
 ```
 
 Interactive conversation with an experienced founder perspective. Covers the questions that matter: Who has this problem? How will they find it? What stops someone from cloning it? Writes an idea brief to `.vibe-check/idea-brief.md`.
@@ -66,10 +66,10 @@ Interactive conversation with an experienced founder perspective. Covers the que
 #### 2. Plan the Build
 
 ```
-/vibe-check:plan
+/plan
 ```
 
-Easy questions in, detailed spec out. Asks you what you're building and for whom, then produces a complete `PROJECT-PLAN.md` with tech stack, data model, pages, scope, and implementation order — optimized for AI coding tools. If you ran `/vibe-check:idea` first, it builds on that context.
+Easy questions in, detailed spec out. Asks you what you're building and for whom, then produces a complete `PROJECT-PLAN.md` with tech stack, data model, pages, scope, and implementation order — optimized for AI coding tools. If you ran `/idea` first, it builds on that context.
 
 #### 3. Build Your App
 
@@ -78,7 +78,7 @@ Use `PROJECT-PLAN.md` as context for Claude Code, Cursor, or your tool of choice
 #### 4. Check Production Readiness
 
 ```
-/vibe-check:check
+/check
 ```
 
 The system:
@@ -94,7 +94,7 @@ You get a score out of 100 and a clear breakdown of what needs attention. Small 
 #### Discuss the Findings
 
 ```
-/vibe-check:discuss
+/discuss
 ```
 
 Ask questions about your report:
@@ -104,11 +104,11 @@ Ask questions about your report:
 
 #### Fix Issues
 
-Auto-fix agent-doable items with verified, atomic commits:
+Review findings and apply fixes with your approval:
 
 ```
-/vibe-check:fix              # Fix all agent-doable items
-/vibe-check:fix item-003     # Fix a specific item
+/fix              # Review and fix all fixable items
+/fix item-003     # Fix a specific item
 ```
 
 Each fix is verified (lint, typecheck, tests as applicable) and committed individually.
@@ -116,7 +116,7 @@ Each fix is verified (lint, typecheck, tests as applicable) and committed indivi
 #### Track Progress
 
 ```
-/vibe-check:refresh
+/refresh
 ```
 
 Re-runs the assessment and shows what improved or regressed since last check.
@@ -125,17 +125,17 @@ Re-runs the assessment and shows what improved or regressed since last check.
 
 ## What You Get
 
-After `/vibe-check:idea`:
+After `/idea`:
 ```
 .vibe-check/idea-brief.md    # Structured idea assessment
 ```
 
-After `/vibe-check:plan`:
+After `/plan`:
 ```
 PROJECT-PLAN.md              # Detailed build spec in project root
 ```
 
-After `/vibe-check:check`:
+After `/check`:
 ```
 .vibe-check/
 ├── summary.md           # 1-page executive overview
@@ -152,22 +152,24 @@ Each checklist item includes:
 - **Current State** — What was found, with file paths and line numbers
 - **Impact** — What happens if you don't fix it (plain language)
 - **How to Fix** — Step-by-step instructions
-- **Agent-Doable** — Whether Claude can fix it for you
+- **Agent-Doable** — Whether the AI can fix it for you
 
 ---
 
-## Commands
+## Skills
 
-| Command | Description |
-|---------|-------------|
-| `/vibe-check:idea` | Validate your product idea with a founder perspective |
-| `/vibe-check:plan` | Plan your build — produces a detailed PROJECT-PLAN.md |
-| `/vibe-check:check` | Full production readiness assessment |
-| `/vibe-check:fix` | Auto-fix agent-doable items with atomic commits |
-| `/vibe-check:refresh` | Re-run and compare with previous results |
-| `/vibe-check:discuss` | Ask questions about your report |
-| `/vibe-check:help` | Show command reference |
-| `/vibe-check:map-codebase` | Standalone codebase analysis |
+| Skill | Description |
+|-------|-------------|
+| `/idea` | Validate your product idea with a founder perspective |
+| `/plan` | Plan your build — produces a detailed PROJECT-PLAN.md |
+| `/check` | Full production readiness assessment |
+| `/fix` | Review findings and apply fixes with approval |
+| `/refresh` | Re-run and compare with previous results |
+| `/discuss` | Ask questions about your report |
+| `/help` | Show skill reference |
+| `/map-codebase` | Standalone codebase analysis |
+
+> **Note:** Skill invocation syntax varies by harness. Claude Code uses `/skill-name`, Cursor uses `@vibe-check skill-name`, VS Code Copilot uses `#vibe-check skill-name`, etc.
 
 ---
 
@@ -226,47 +228,22 @@ Domains and items that don't apply to your project (no database, no analytics, e
 
 ## Installation
 
-```bash
-npx vibe-check-cc
-```
-
-The installer prompts you to choose:
-- **Global** (`~/.claude`) — Available in all projects
-- **Local** (`./.claude`) — Current project only
-
-### Non-Interactive Install
+### Universal (all harnesses)
 
 ```bash
-# Global install
-npx vibe-check-cc --global
-
-# Local install
-npx vibe-check-cc --local
-
-# Uninstall
-npx vibe-check-cc --global --uninstall
+npx skills add kylerd/vibe-check
 ```
 
-### Verify Installation
+Auto-detects your AI coding tool and installs the right skill files. Works with Claude Code, Cursor, Gemini CLI, Codex CLI, VS Code Copilot, Kiro, OpenCode, Antigravity, and Pi.
 
-```
-/vibe-check:help
-```
+### Manual download
 
-### Recommended: Skip Permissions Mode
+Download the [universal ZIP](https://github.com/KylerD/vibe-check/releases/latest/download/vibe-check-universal.zip), extract it, and copy the folder for your harness into your project root. See [vibe-check.cloud/download](https://vibe-check.cloud/download) for per-harness instructions.
 
-Vibe Check spawns multiple agents and runs various tools. For a frictionless experience, run Claude Code with:
+### Updating
 
 ```bash
-claude --dangerously-skip-permissions
-```
-
----
-
-## Updating
-
-```bash
-npx vibe-check-cc@latest
+npx skills update
 ```
 
 ---
@@ -285,6 +262,10 @@ Vibe Check uses specialized agents to keep context focused:
 | **Fixer** | Applies fixes with verification and atomic commits |
 
 The orchestrator stays lean (under 30% context). Heavy exploration and evaluation happen in subagents with fresh context windows.
+
+### Skills Architecture
+
+Each skill is a self-contained folder with a `SKILL.md` orchestrator, plus agents, references, and templates as needed. A build system generates per-harness variants from a single canonical source, handling frontmatter differences and shared content inlining.
 
 ### On Secrets
 
@@ -309,13 +290,17 @@ The assessment output lives in `.vibe-check/` which you might commit. Here's how
 
 ## Troubleshooting
 
-**Commands not found?**
-- Restart Claude Code to reload commands
-- Verify files exist in `~/.claude/commands/vibe-check/`
+**Skills not found?**
+- Restart your AI coding tool to reload skills
+- Verify files exist (e.g., `.claude/skills/vibe-check/` for Claude Code)
 
 **Want to re-run?**
-- Delete `.vibe-check/` and run `/vibe-check:check` again
-- Or use `/vibe-check:refresh` to update existing assessment
+- Delete `.vibe-check/` and run `/check` again
+- Or use `/refresh` to update existing assessment
+
+**Migrating from v1?**
+- Run `npx vibe-check-cc` — it will detect old files and offer to clean them up
+- Then install v2: `npx skills add kylerd/vibe-check`
 
 ---
 
