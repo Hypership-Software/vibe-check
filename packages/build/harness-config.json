@@ -1,0 +1,62 @@
+{
+  "harnesses": {
+    "claude": {
+      "dir": ".claude/skills",
+      "frontmatter": {
+        "keepUserInvocable": true,
+        "keepArgs": true
+      }
+    },
+    "cursor": {
+      "dir": ".cursor/skills",
+      "frontmatter": {
+        "keepUserInvocable": false,
+        "keepArgs": false
+      }
+    },
+    "codex": {
+      "dir": ".codex/skills",
+      "frontmatter": {
+        "keepUserInvocable": false,
+        "keepArgs": false,
+        "convertArgsToHint": true
+      }
+    },
+    "gemini": {
+      "dir": ".gemini/skills",
+      "frontmatter": {
+        "keepUserInvocable": false,
+        "keepArgs": false
+      }
+    },
+    "agents": {
+      "dir": ".agents/skills",
+      "frontmatter": {
+        "keepUserInvocable": false,
+        "keepArgs": false
+      },
+      "displayNames": ["VS Code Copilot", "Antigravity"]
+    },
+    "kiro": {
+      "dir": ".kiro/skills",
+      "frontmatter": {
+        "keepUserInvocable": false,
+        "keepArgs": false
+      }
+    },
+    "opencode": {
+      "dir": ".opencode/skills",
+      "frontmatter": {
+        "keepUserInvocable": false,
+        "keepArgs": false
+      }
+    },
+    "pi": {
+      "dir": ".pi/skills",
+      "frontmatter": {
+        "keepUserInvocable": false,
+        "keepArgs": false
+      }
+    }
+  }
+}

@@ -7,8 +7,10 @@ node_modules/
 # Next.js
 .next/
 out/
-build/
+/build/
 dist/
+# Don't ignore the build package
+!packages/build/
 
 # Environment
 .env

@@ -1,0 +1,9 @@
+{
+  "name": "@vibe-check/build",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node generate-universal.js",
+    "build:zip": "node generate-universal.js --zip"
+  }
+}
