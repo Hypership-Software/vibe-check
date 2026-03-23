@@ -1,8 +1,6 @@
 const SKILLS = [
   { name: 'check', description: 'Run production readiness assessment' },
   { name: 'fix', description: 'Review and apply fixes with approval' },
-  { name: 'idea', description: 'Validate product ideas' },
-  { name: 'plan', description: 'Plan your build interactively' },
   { name: 'refresh', description: 'Re-assess and compare progress' },
   { name: 'discuss', description: 'Ask questions about results' },
   { name: 'map-codebase', description: 'Analyze project structure' },
@@ -16,7 +14,7 @@ export function CommandsCheatsheet() {
         Available Skills
       </h2>
       <p className="mb-8 text-center text-muted-foreground">
-        Eight skills to guide your app from vibe to production.
+        Six skills to get your app production-ready.
       </p>
 
       <div className="grid gap-3 sm:grid-cols-2">
