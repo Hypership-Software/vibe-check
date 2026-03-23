@@ -3,11 +3,14 @@ import { Button } from '@/components/ui/button';
 
 const DOMAINS = [
   'Security',
-  'Discoverability',
+  'Auth',
+  'Error Handling',
   'Analytics',
-  'Platform',
   'Reliability',
   'Legal',
+  'CI/CD',
+  'Accessibility',
+  '+ more',
 ];
 
 const TERMINAL_LINES = [
@@ -35,21 +38,25 @@ export function HeroSection() {
     <section className="mx-auto max-w-4xl px-6 pt-20 pb-16">
       <div className="flex flex-col items-center text-center">
         <Badge variant="secondary" className="mb-6 rounded-full px-3 py-1">
-          Open source &middot; Works on 9 AI coding tools
+          Free and open-source
         </Badge>
 
         <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-          Your AI built it in 20 minutes.
+          Ship with confidence.
           <br />
           <span className="text-muted-foreground">
-            Is it production ready?
+            Not just vibes.
           </span>
         </h1>
 
         <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-          <strong>vibe-check</strong> scans AI-generated codebases for hidden production risks
-          across security, payments, auth, and more — then gives you the prompts
-          to fix them. Works inside Claude Code, Cursor, Gemini CLI, Copilot, and more.
+          <strong>vibe-check</strong> scans your AI-built codebase for hidden
+          production risks — security holes, broken auth, missing error
+          handling — and hands you the exact prompts to fix them.
+        </p>
+
+        <p className="mt-3 max-w-2xl text-sm text-muted-foreground/80">
+          196 of 198 vibe-coded apps had security vulnerabilities. Most founders found out after launch.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

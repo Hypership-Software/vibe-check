@@ -20,7 +20,7 @@ export function HarnessLogos() {
       aria-label="Compatible AI coding tools"
     >
       <p className="mb-6 text-center text-sm font-medium uppercase tracking-widest text-muted-foreground">
-        Works with your favorite AI coding tool
+        Works wherever you vibe
       </p>
       <ul
         className="flex flex-wrap items-center justify-center gap-6 sm:gap-8"
