@@ -1,6 +1,6 @@
 import type { Feature } from '@/lib/types/game';
 
-const BASE_URL = 'https://vibe-check.cloud';
+const BASE_URL = 'https://www.vibe-check.cloud';
 const SITE_NAME = 'Vibe Check';
 
 export function safeJsonLd(data: Record<string, unknown>): string {

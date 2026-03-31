@@ -7,7 +7,7 @@ import { SiteFooter } from '@/components/site-footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getBreadcrumbJsonLd, getCollectionPageJsonLd, safeJsonLd } from '@/lib/seo';
 
-const BASE_URL = 'https://vibe-check.cloud';
+const BASE_URL = 'https://www.vibe-check.cloud';
 
 export const metadata: Metadata = {
   title: 'Production Readiness Checklists for AI-Built Apps',

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://vibe-check.cloud';
+  const baseUrl = 'https://www.vibe-check.cloud';
 
   return {
     rules: [

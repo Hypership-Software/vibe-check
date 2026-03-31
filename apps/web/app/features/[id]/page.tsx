@@ -36,12 +36,12 @@ export async function generateMetadata({
     title,
     description,
     alternates: {
-      canonical: `https://vibe-check.cloud/features/${id}`,
+      canonical: `https://www.vibe-check.cloud/features/${id}`,
     },
     openGraph: {
       title: `${feature.name} Checklist for AI-Built Apps — Vibe Check`,
       description,
-      url: `https://vibe-check.cloud/features/${id}`,
+      url: `https://www.vibe-check.cloud/features/${id}`,
       images: [
         {
           url: "/vibe-check-og.png",
@@ -77,7 +77,7 @@ export default async function FeaturePage({
   const content = getFeatureContent(feature.name);
   const icon = FEATURE_ICONS[feature.id] ?? '📦';
 
-  const baseUrl = 'https://vibe-check.cloud';
+  const baseUrl = 'https://www.vibe-check.cloud';
 
   const articleJsonLd = getFeatureArticleJsonLd(feature, content ?? undefined);
   const breadcrumbJsonLd = getBreadcrumbJsonLd([

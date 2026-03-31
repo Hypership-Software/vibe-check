@@ -19,7 +19,7 @@ const title = "Vibe Check — Production Readiness Scanner for AI-Built Apps";
 const shortTitle = "Vibe Check";
 const description =
   "Free, open-source Claude Code plugin that scans AI-generated codebases for hidden production risks across security, payments, auth, and more. Built for vibe coders using Cursor, Lovable, Bolt, v0, and Claude Code.";
-const url = "https://vibe-check.cloud";
+const url = "https://www.vibe-check.cloud";
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
