@@ -124,6 +124,25 @@ export function getFeatureArticleJsonLd(feature: Feature, featureContent?: {
   return jsonLd;
 }
 
+export function getSoftwareSourceCodeJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareSourceCode',
+    name: 'vibe-check',
+    description:
+      'Open-source CLI tool and Claude Code plugin that scans AI-generated codebases for hidden production risks',
+    codeRepository: 'https://github.com/Hypership-Software/vibe-check',
+    programmingLanguage: 'TypeScript',
+    runtimePlatform: 'Node.js',
+    license: 'https://opensource.org/licenses/MIT',
+    author: {
+      '@type': 'Organization',
+      name: 'Hypership',
+      url: 'https://hypership.tech',
+    },
+  };
+}
+
 export function getGuideArticleJsonLd(
   headline: string,
   description: string,

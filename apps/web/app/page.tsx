@@ -19,6 +19,7 @@ const InstallSection = dynamic(() =>
 import {
   getWebsiteJsonLd,
   getSoftwareApplicationJsonLd,
+  getSoftwareSourceCodeJsonLd,
   getFaqJsonLd,
   safeJsonLd,
   HOME_FAQS,
@@ -37,6 +38,12 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: safeJsonLd(getSoftwareApplicationJsonLd()),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd(getSoftwareSourceCodeJsonLd()),
         }}
       />
       <script
