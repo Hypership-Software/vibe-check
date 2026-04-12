@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { SiteFooter } from '@/components/site-footer';
 import { getFaqJsonLd, getBreadcrumbJsonLd, safeJsonLd } from '@/lib/seo';
 
-const BASE_URL = 'https://www.vibe-check.cloud';
+const BASE_URL = 'https://vibe-check.cloud';
 const PAGE_URL = `${BASE_URL}/learn`;
 
 export const metadata: Metadata = {

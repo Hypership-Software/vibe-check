@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
-const BASE_URL = 'https://www.vibe-check.cloud';
+const BASE_URL = 'https://vibe-check.cloud';
 const PAGE_URL = `${BASE_URL}/download`;
 const DOWNLOAD_URL =
   'https://github.com/Hypership-Software/vibe-check/releases/latest/download/vibe-check-universal.zip';

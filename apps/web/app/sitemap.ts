@@ -4,7 +4,7 @@ import { FEATURES } from '@/lib/features';
 const LAST_CONTENT_UPDATE = '2026-03-09';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.vibe-check.cloud';
+  const baseUrl = 'https://vibe-check.cloud';
   const contentDate = new Date(LAST_CONTENT_UPDATE);
 
   const featurePages: MetadataRoute.Sitemap = FEATURES.map((feature) => ({

@@ -8,7 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { SiteFooter } from '@/components/site-footer';
 import { getGuideArticleJsonLd, getBreadcrumbJsonLd, safeJsonLd } from '@/lib/seo';
 
-const BASE_URL = 'https://www.vibe-check.cloud';
+const BASE_URL = 'https://vibe-check.cloud';
 const PAGE_URL = `${BASE_URL}/guides/what-is-vibe-testing`;
 
 export const metadata: Metadata = {
