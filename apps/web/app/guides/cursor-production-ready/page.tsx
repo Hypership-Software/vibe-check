@@ -12,16 +12,16 @@ const BASE_URL = 'https://vibe-check.cloud';
 const PAGE_URL = `${BASE_URL}/guides/cursor-production-ready`;
 
 export const metadata: Metadata = {
-  title: 'Is Your Cursor App Production Ready? Complete Checklist',
+  title: 'Is Your Cursor App Production Ready? The Complete Checklist',
   description:
-    'Built an app with Cursor or another AI coding tool? Everything to check before production — security, monitoring, payments, and more.',
+    'Built something with Cursor? This checklist covers the security, auth, payments, and monitoring gaps AI misses — so you can ship without breaking prod.',
   alternates: {
     canonical: PAGE_URL,
   },
   openGraph: {
-    title: 'Is Your Cursor App Production Ready? Complete Checklist',
+    title: 'Is Your Cursor App Production Ready? The Complete Checklist',
     description:
-      'Built an app with Cursor or another AI coding tool? Everything to check before production — security, monitoring, payments, and more.',
+      'Built something with Cursor? This checklist covers the security, auth, payments, and monitoring gaps AI misses — so you can ship without breaking prod.',
     url: PAGE_URL,
     images: [
       {
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Is Your Cursor App Production Ready? Complete Checklist',
+    title: 'Is Your Cursor App Production Ready? The Complete Checklist',
     description:
-      'Built an app with Cursor or another AI coding tool? Everything to check before production — security, monitoring, payments, and more.',
+      'Built something with Cursor? This checklist covers the security, auth, payments, and monitoring gaps AI misses — so you can ship without breaking prod.',
     images: ['/vibe-check-og.png'],
   },
 };

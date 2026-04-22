@@ -12,16 +12,16 @@ const DOWNLOAD_URL =
   'https://github.com/Hypership-Software/vibe-check/releases/latest/download/vibe-check-universal.zip';
 
 export const metadata: Metadata = {
-  title: 'Download Vibe Check — Universal ZIP for All AI Coding Tools',
+  title: 'Download Vibe Check — Free Production Readiness Scanner',
   description:
-    'Download the Vibe Check universal ZIP and install it in Claude Code, Cursor, Gemini CLI, Codex CLI, VS Code Copilot, Kiro, OpenCode, or Pi. One download, every AI harness.',
+    'Download Vibe Check free. One ZIP, works with Claude Code, Cursor, Gemini CLI, Copilot, and more. Scans your AI-built app for security and production risks.',
   alternates: {
     canonical: PAGE_URL,
   },
   openGraph: {
-    title: 'Download Vibe Check — Universal ZIP for All AI Coding Tools',
+    title: 'Download Vibe Check — Free Production Readiness Scanner',
     description:
-      'Download the Vibe Check universal ZIP and install it in Claude Code, Cursor, Gemini CLI, Codex CLI, VS Code Copilot, Kiro, OpenCode, or Pi. One download, every AI harness.',
+      'Download Vibe Check free. One ZIP, works with Claude Code, Cursor, Gemini CLI, Copilot, and more. Scans your AI-built app for security and production risks.',
     url: PAGE_URL,
     images: [
       {
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Download Vibe Check — Universal ZIP for All AI Coding Tools',
+    title: 'Download Vibe Check — Free Production Readiness Scanner',
     description:
-      'Download the Vibe Check universal ZIP and install it in Claude Code, Cursor, Gemini CLI, Codex CLI, VS Code Copilot, Kiro, OpenCode, or Pi. One download, every AI harness.',
+      'Download Vibe Check free. One ZIP, works with Claude Code, Cursor, Gemini CLI, Copilot, and more. Scans your AI-built app for security and production risks.',
     images: ['/vibe-check-og.png'],
   },
 };

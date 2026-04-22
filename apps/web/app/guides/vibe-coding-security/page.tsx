@@ -12,16 +12,16 @@ const BASE_URL = 'https://vibe-check.cloud';
 const PAGE_URL = `${BASE_URL}/guides/vibe-coding-security`;
 
 export const metadata: Metadata = {
-  title: 'Vibe Coding Security Guide: Protect Your AI-Built App',
+  title: 'Vibe Coding Security: Risks, Guardrails & How to Fix AI-Generated Code',
   description:
-    "Is your vibe coded app secure? The top security risks in AI-generated code from Cursor, Lovable, Bolt, and Claude Code — and how to fix them.",
+    'The biggest security risks in vibe coded apps — exposed API keys, missing auth, unsafe dependencies. A practical guide to securing AI-generated code from Cursor, Lovable, and Bolt.',
   alternates: {
     canonical: PAGE_URL,
   },
   openGraph: {
-    title: 'Vibe Coding Security Guide: Protect Your AI-Built App',
+    title: 'Vibe Coding Security: Risks, Guardrails & How to Fix AI-Generated Code',
     description:
-      "Is your vibe coded app secure? The top security risks in AI-generated code from Cursor, Lovable, Bolt, and Claude Code — and how to fix them.",
+      'The biggest security risks in vibe coded apps — exposed API keys, missing auth, unsafe dependencies. A practical guide to securing AI-generated code from Cursor, Lovable, and Bolt.',
     url: PAGE_URL,
     images: [
       {
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vibe Coding Security Guide: Protect Your AI-Built App',
+    title: 'Vibe Coding Security: Risks, Guardrails & How to Fix AI-Generated Code',
     description:
-      "Is your vibe coded app secure? The top security risks in AI-generated code from Cursor, Lovable, Bolt, and Claude Code — and how to fix them.",
+      'The biggest security risks in vibe coded apps — exposed API keys, missing auth, unsafe dependencies. A practical guide to securing AI-generated code from Cursor, Lovable, and Bolt.',
     images: ['/vibe-check-og.png'],
   },
 };
