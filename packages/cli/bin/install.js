@@ -66,10 +66,28 @@ function getClaudeDir(isGlobal) {
  * Expand ~ to home directory
  */
 function expandTilde(filePath) {
-  if (filePath && filePath.startsWith('~/')) {
+  if (!filePath) return filePath;
+  if (filePath === '~') return os.homedir();
+  if (filePath.startsWith('~/') || filePath.startsWith('~\\')) {
     return path.join(os.homedir(), filePath.slice(2));
   }
   return filePath;
+}
+
+/**
+ * Remove a directory if it exists. Returns true if something was removed.
+ * Uses force so a vanished path or read-only file (common on Windows) doesn't
+ * abort cleanup with a raw stack trace.
+ */
+function removeDir(dir) {
+  if (!fs.existsSync(dir)) return false;
+  try {
+    fs.rmSync(dir, { recursive: true, force: true });
+    return true;
+  } catch (err) {
+    console.error(`  ${yellow}Warning:${reset} could not remove ${dir} (${err.message}).`);
+    return false;
+  }
 }
 
 /**
@@ -107,7 +125,12 @@ function removeHooks(claudeDir) {
       return true;
     }
   } catch (err) {
-    // Ignore errors
+    console.error(
+      `  ${yellow}Warning:${reset} could not update ${settingsPath} (${err.message}).`
+    );
+    console.error(
+      `  ${dim}If a scan-secrets.js hook is present, remove it from settings.json manually.${reset}`
+    );
   }
 
   return false;
@@ -132,16 +155,14 @@ function cleanup(isGlobal) {
 
   // Remove commands/vibe-check/
   const commandsDir = path.join(claudeDir, 'commands', 'vibe-check');
-  if (fs.existsSync(commandsDir)) {
-    fs.rmSync(commandsDir, { recursive: true });
+  if (removeDir(commandsDir)) {
     removed++;
     console.log(`  ${green}✓${reset} Removed commands/vibe-check/`);
   }
 
   // Remove vibe-check/ (references, templates, scripts, skills)
   const vibeCheckDir = path.join(claudeDir, 'vibe-check');
-  if (fs.existsSync(vibeCheckDir)) {
-    fs.rmSync(vibeCheckDir, { recursive: true });
+  if (removeDir(vibeCheckDir)) {
     removed++;
     console.log(`  ${green}✓${reset} Removed vibe-check/`);
   }

@@ -27,7 +27,7 @@ Return confirmation and a summary of findings when complete.
 **If subagent spawning is NOT available**, perform the mapping yourself:
 1. Read `agents/mapper.md` for the exploration process
 2. Follow the compact mode or standard mode steps depending on codebase size
-3. Write all 13 analysis files to `.vibe-check/analysis/`
+3. Write all 17 analysis files to `.vibe-check/analysis/`
 4. Continue to output
 
 ## Output format

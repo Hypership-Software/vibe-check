@@ -32,8 +32,8 @@ empty = bar_length - filled
 | Score   | Band            | Display                          |
 |---------|-----------------|----------------------------------|
 | 90-100  | Production Ready | `✓ Production Ready`            |
-| 75-89   | Launch Ready    | `◑ Launch Ready`                 |
-| 60-74   | Needs Work      | `◐ Needs Work`                   |
+| 75-89   | Launch Ready    | `◕ Launch Ready`                 |
+| 60-74   | Needs Work      | `◔ Needs Work`                   |
 | 0-59    | Early Stage     | `✗ Early Stage`                  |
 
 ---
@@ -48,7 +48,7 @@ The primary score display at the top of summary and report files:
 │   VIBE CHECK                                 │
 │                                              │
 │   Score: 67/100                              │
-│   ██████████████░░░░░░  ◐ Needs Work         │
+│   ██████████████░░░░░░  ◔ Needs Work         │
 │                                              │
 └──────────────────────────────────────────────┘
 ```
@@ -72,7 +72,7 @@ For different bands:
 │   VIBE CHECK                                 │
 │                                              │
 │   Score: 82/100                              │
-│   █████████████████░░░  ◑ Launch Ready       │
+│   █████████████████░░░  ◕ Launch Ready       │
 │                                              │
 └──────────────────────────────────────────────┘
 ```
@@ -218,7 +218,7 @@ PROGRESS
 ═══════════════════════════════════════════════
 
 Previous:  52/100  ████████████░░░░░░░░  ✗ Early Stage
-Current:   76/100  ████████████████░░░░  ◑ Launch Ready
+Current:   76/100  ████████████████░░░░  ◕ Launch Ready
                    ─────────────────────
 Change:           +19 points  ▲
 
@@ -289,9 +289,9 @@ This appears when `criticalGate = true`. The band is capped at "Needs Work" rega
 ```
 ┌─ NEXT STEPS ────────────────────────────────┐
 │                                             │
-│  1. Run /vibe-check:fix to auto-fix 5 items │
+│  1. Run /fix to auto-fix 5 items            │
 │  2. Set up Sentry account for error tracking│
-│  3. Run /vibe-check:refresh to update score │
+│  3. Run /refresh to update score            │
 │                                             │
 └─────────────────────────────────────────────┘
 ```
@@ -308,7 +308,7 @@ When displaying results in the terminal (not written to files):
 │   VIBE CHECK COMPLETE                        │
 │                                              │
 │   Score: 82/100                              │
-│   █████████████████░░░  ◑ Launch Ready       │
+│   █████████████████░░░  ◕ Launch Ready       │
 │                                              │
 └──────────────────────────────────────────────┘
 
@@ -326,8 +326,8 @@ Created .vibe-check/ with 50 checklist items:
 ┌─ NEXT ──────────────────────────────────────┐
 │                                             │
 │  • Review: .vibe-check/summary.md           │
-│  • Fix:    /vibe-check:fix                  │
-│  • Discuss: /vibe-check:discuss             │
+│  • Fix:    /fix                             │
+│  • Discuss: /discuss                        │
 │                                             │
 └─────────────────────────────────────────────┘
 ```

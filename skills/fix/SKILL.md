@@ -49,7 +49,7 @@ fix (orchestrator)
     |
     +-- Phase 4: Fix Loop (sequential, after approval)
     |   +-- For each approved item:
-    |       +-- Spawn: vibe-fixer agent (fresh context)
+    |       +-- Spawn: fixer agent (fresh context)
     |       +-- Agent: reads item, applies fix, verifies, commits
     |       +-- Returns: fixed | failed | skipped
     |       +-- Report result before moving to next item
@@ -146,18 +146,14 @@ Which would you like me to fix?
 
 ### Phase 4: Fix Loop
 
-Only after the user approves specific items, spawn a `vibe-fixer` agent for each:
+Only after the user approves specific items, spawn a `fixer` agent for each:
 
 ```
 Task: Fix checklist item {item-id}
 
-Read agents/vibe-fixer.md for your instructions.
+Read agents/fixer.md for your instructions.
 
 Item file: .vibe-check/checklist/{item-filename}
-
-Load references:
-- references/persona.md
-- references/voice.md
 
 Apply the fix, verify it works, and commit if successful.
 
@@ -186,7 +182,7 @@ For items marked as `failed`:
 
 ### Phase 6: Summary
 
-Use the visual patterns from `references/ui-brand.md`. Display results:
+Use the Vibe Check visual patterns (see the UI brand guide in the Context section below). Display results:
 
 ```
 ┌──────────────────────────────────────────────┐

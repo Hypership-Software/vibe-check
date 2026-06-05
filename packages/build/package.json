@@ -5,5 +5,8 @@
   "scripts": {
     "build": "node generate-universal.js",
     "build:zip": "node generate-universal.js --zip"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
   }
 }

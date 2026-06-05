@@ -1,6 +1,6 @@
 {
   "name": "vibe-check-cc",
-  "version": "2.0.2",
+  "version": "2.1.1",
   "description": "Production readiness toolkit for AI-built apps",
   "author": {
     "name": "Kyle Davidson"
@@ -13,7 +13,7 @@
     "claude",
     "claude-code",
     "vibe-coding",
-"production-readiness",
+    "production-readiness",
     "startup",
     "assessment"
   ],

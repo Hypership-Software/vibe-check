@@ -4,7 +4,8 @@
       "dir": ".claude/skills",
       "frontmatter": {
         "keepUserInvocable": true,
-        "keepArgs": true
+        "keepArgs": true,
+        "keepHooks": true
       }
     },
     "cursor": {

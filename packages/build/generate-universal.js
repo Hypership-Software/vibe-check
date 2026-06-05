@@ -15,6 +15,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const yaml = require('js-yaml');
 
 // ---------------------------------------------------------------------------
 // Paths
@@ -28,6 +29,16 @@ const DIST_DIR = path.join(REPO_ROOT, 'dist', 'universal');
 const CONFIG_PATH = path.join(PKG_DIR, 'harness-config.json');
 
 const ZIP_FLAG = process.argv.includes('--zip');
+
+// Agents are authored once under skills/check/agents/ (the canonical source) and
+// copied into the skills that reuse them at build time. This keeps every shipped
+// skill self-contained without duplicating agent files in source.
+const CANONICAL_AGENTS_SKILL = 'check';
+const SHARED_AGENTS = {
+  refresh: ['mapper.md', 'assessor.md'],
+  'map-codebase': ['mapper.md'],
+  fix: ['fixer.md'],
+};
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -60,79 +71,48 @@ function copyDirRecursive(src, dest) {
  * Returns null if no frontmatter is present.
  */
 function parseFrontmatter(content) {
-  // Must start with ---
-  if (!content.startsWith('---')) return null;
+  // Normalize line endings so CRLF-authored files parse identically.
+  const normalized = content.replace(/\r\n/g, '\n');
 
-  const end = content.indexOf('\n---', 3);
-  if (end === -1) return null;
+  // Must open with a --- fence on the first line.
+  if (!normalized.startsWith('---\n')) return null;
 
-  const rawYaml = content.slice(3, end).trim();
-  const body = content.slice(end + 4); // skip \n---
+  // Find the closing --- fence (on its own line, or at EOF).
+  const closeMatch = normalized.slice(4).match(/\n---(\n|$)/);
+  if (!closeMatch) return null;
 
-  // Simple line-by-line YAML parser (handles string, boolean, array values)
-  const data = {};
-  let currentKey = null;
-  let currentArray = null;
+  const closeIdx = 4 + closeMatch.index; // index of the '\n' before closing ---
+  const rawYaml = normalized.slice(4, closeIdx);
+  // Body keeps the leading newline that followed the closing fence.
+  const body = normalized.slice(closeIdx + 4); // skip '\n---'
 
-  for (const line of rawYaml.split('\n')) {
-    // Array item
-    const arrayMatch = line.match(/^(\s+)-\s+(.+)$/);
-    if (arrayMatch && currentArray !== null) {
-      currentArray.push(arrayMatch[2].trim());
-      continue;
-    }
+  let data;
+  try {
+    data = yaml.load(rawYaml);
+  } catch (err) {
+    console.warn(`  [warn] Failed to parse frontmatter YAML: ${err.message}`);
+    return null;
+  }
 
-    // Key: value
-    const kvMatch = line.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
-    if (kvMatch) {
-      const key = kvMatch[1];
-      const val = kvMatch[2].trim();
-
-      if (val === '') {
-        // Could be an array or nested object — treat as array start
-        currentKey = key;
-        currentArray = [];
-        data[key] = currentArray;
-      } else if (val === 'true') {
-        data[key] = true;
-        currentArray = null;
-      } else if (val === 'false') {
-        data[key] = false;
-        currentArray = null;
-      } else {
-        data[key] = val;
-        currentArray = null;
-      }
-      continue;
-    }
-
-    // Blank lines or unknown lines reset array tracking
-    if (line.trim() === '') {
-      currentArray = null;
-    }
+  if (data === null || data === undefined) data = {};
+  if (typeof data !== 'object' || Array.isArray(data)) {
+    console.warn('  [warn] Frontmatter is not a mapping; leaving file unchanged.');
+    return null;
   }
 
   return { data, body };
 }
 
 /**
- * Serialise a frontmatter data object back to YAML string (simple subset).
+ * Serialise a frontmatter data object back to a YAML string. Uses a real YAML
+ * emitter so nested structures (object-list `args`, nested `hooks` blocks) round
+ * trip faithfully. lineWidth -1 disables line wrapping so long descriptions stay
+ * on one line.
  */
 function serializeFrontmatter(data) {
-  const lines = [];
-  for (const [key, value] of Object.entries(data)) {
-    if (Array.isArray(value)) {
-      lines.push(`${key}:`);
-      for (const item of value) {
-        lines.push(`  - ${item}`);
-      }
-    } else if (typeof value === 'boolean') {
-      lines.push(`${key}: ${value}`);
-    } else {
-      lines.push(`${key}: ${value}`);
-    }
-  }
-  return lines.join('\n');
+  return yaml
+    .dump(data, { lineWidth: -1, noRefs: true })
+    .replace(/\n$/, '');
 }
 
 /**
@@ -148,18 +128,27 @@ function transformFrontmatter(data, harnessConfig) {
 
   if (!fm.keepArgs) {
     if (fm.convertArgsToHint && result.args) {
-      // Convert args array to argument-hint string: [NAME=<value>] ...
+      // Convert args to an argument-hint string: [NAME=<value>] ...
+      // Entries are objects ({ name, description, required }); tolerate bare
+      // strings ("name" or "name: description") for forward compatibility.
       const args = Array.isArray(result.args) ? result.args : [result.args];
       const hint = args
         .map((a) => {
-          // arg entries may look like "NAME: description" or just "NAME"
-          const name = String(a).split(':')[0].trim().toUpperCase();
-          return `[${name}=<value>]`;
+          const name =
+            a && typeof a === 'object' && a.name
+              ? String(a.name)
+              : String(a).split(':')[0];
+          return `[${name.trim().toUpperCase()}=<value>]`;
         })
         .join(' ');
       result['argument-hint'] = hint;
     }
     delete result.args;
+  }
+
+  // Hooks are Claude Code-specific; strip them for harnesses that don't run them.
+  if (!fm.keepHooks) {
+    delete result.hooks;
   }
 
   return result;
@@ -210,6 +199,21 @@ function processSkillMd(content, harnessConfig, sharedContent) {
     const transformedData = transformFrontmatter(parsed.data, harnessConfig);
     const newFrontmatter = serializeFrontmatter(transformedData);
     processed = `---\n${newFrontmatter}\n---${parsed.body}`;
+
+    // Round-trip guard: the regenerated frontmatter must parse back to the same
+    // keys, so a serialization regression fails the build instead of shipping
+    // corrupt frontmatter.
+    const reparsed = parseFrontmatter(processed);
+    if (!reparsed) {
+      throw new Error('Generated frontmatter no longer parses as YAML.');
+    }
+    const expected = Object.keys(transformedData).sort().join(',');
+    const actual = Object.keys(reparsed.data).sort().join(',');
+    if (expected !== actual) {
+      throw new Error(
+        `Frontmatter round-trip mismatch. expected [${expected}] got [${actual}]`
+      );
+    }
   } else {
     processed = content;
   }
@@ -251,9 +255,10 @@ Installation:
   1. Unzip this archive (if zipped).
   2. Copy the folder matching your AI harness into your project root.
      Example (Claude Code):
-       cp -r vibe-check-universal/.claude/skills .claude/skills
+       macOS/Linux: cp -r vibe-check-universal/.claude/skills .claude/skills
+       Windows:     xcopy /E /I vibe-check-universal\\.claude\\skills .claude\\skills
   3. Follow the harness-specific setup guide at:
-       https://vibe-check.dev/docs/install
+       https://vibe-check.cloud/download
 
 Generated: ${new Date().toISOString()}
 `;
@@ -312,6 +317,25 @@ function build() {
 
       // Copy entire skill folder
       copyDirRecursive(skillSrc, skillDest);
+
+      // Copy any shared agents this skill reuses from the canonical source.
+      const sharedAgents = SHARED_AGENTS[skillEntry.name];
+      if (sharedAgents) {
+        const agentsSrc = path.join(SKILLS_DIR, CANONICAL_AGENTS_SKILL, 'agents');
+        const agentsDest = path.join(skillDest, 'agents');
+        fs.mkdirSync(agentsDest, { recursive: true });
+        for (const agentFile of sharedAgents) {
+          const src = path.join(agentsSrc, agentFile);
+          if (!fs.existsSync(src)) {
+            console.error(
+              `ERROR: shared agent not found: skills/${CANONICAL_AGENTS_SKILL}/agents/${agentFile}`
+            );
+            process.exit(1);
+          }
+          fs.copyFileSync(src, path.join(agentsDest, agentFile));
+        }
+        console.log(`  copied shared agents → ${skillEntry.name}: ${sharedAgents.join(', ')}`);
+      }
 
       // Transform SKILL.md if present
       const skillMdPath = path.join(skillDest, 'SKILL.md');

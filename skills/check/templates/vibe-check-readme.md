@@ -48,10 +48,10 @@ SCORE BANDS
 90-100  ████████████████████  ✓ Production Ready
         Exceeds launch requirements
 
-75-89   ███████████████░░░░░  ◑ Launch Ready
+75-89   ███████████████░░░░░  ◕ Launch Ready
         Ready to ship with minor gaps
 
-60-74   ████████████░░░░░░░░  ◐ Needs Work
+60-74   ████████████░░░░░░░░  ◔ Needs Work
         Significant improvements needed
 
 0-59    ████████░░░░░░░░░░░░  ✗ Early Stage
