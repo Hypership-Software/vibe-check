@@ -218,6 +218,7 @@ Wait for confirmation. The mapper writes 17 analysis files and returns:
 - **Mode** (Compact or Standard)
 - **AI patterns detected** (Yes/No)
 - **Capabilities detected** (Database, Auth, Server/Backend, Analytics SDK, AI patterns, UI/Frontend, CI Pipeline, Test Runner)
+- **Coverage notes** (what received lighter review or was skipped — keep these for the report's Assumptions section)
 
 **Do not read the analysis files.** The assessors will read them. Use the capabilities summary to decide which assessors to skip (Phase 4).
 
@@ -435,10 +436,20 @@ Collect score summaries from each assessor.
 You now have:
 
 - Score contributions from each assessor (including N/A counts)
+- Strengths (Pass items with evidence) from each assessor
+- Open questions (verification questions for Unknown items) from each assessor
 - List of checklist item files written
-- Mapper capabilities
+- Mapper capabilities and coverage notes
 
 Calculate total score and write final files. Read `reference/scoring.md` for the scoring methodology.
+
+#### Root-cause themes
+
+Before writing summary.md and report.md, look across all assessor results for shared causes. Findings often trace back to 2–4 root causes — e.g., "no CI pipeline" explains tests-not-in-CI, no build verification, and no environment separation across three domains; "no observability" explains error tracking, logging, and APM fails. Name those themes in the executive summary so the user sees a few fixable problems instead of twenty disconnected items. Only name themes that genuinely explain multiple findings — if the findings are unrelated, say so rather than forcing a pattern.
+
+#### What not to fix
+
+Context calibration shouldn't be silent. Using the user's audience/data/stakes answers, identify failing items that are honestly not worth their time right now (e.g., Low-priority polish on a side project, E2E testing before there are users) and list them in action-plan.md with a one-line reason each. Never put Critical items here. This is a recommendation to defer, not a status change — the items stay in the checklist and score.
 
 #### metadata.json
 
@@ -495,24 +506,30 @@ Calculate total score and write final files. Read `reference/scoring.md` for the
 - `na` count per category shows how many items were marked N/A
 - `criticalGate` is true when Critical fails cap the band at "Needs Work"
 - `criticalItems` lists the titles of Critical-priority Fail items (empty array if none)
+- `resolvedUnknowns` (optional array) is added by the resolve-unknowns flow in Phase 7 — see that section for the shape
 
 #### summary.md
 
 Use `templates/summary.md` as reference. Include:
 
 - Score and band
+- What's working (top strengths from assessor summaries — pick the most meaningful, not all)
 - Top 3 risks
 - Quick wins (agent-doable, high-impact)
+- Open questions (only if Unknown items exist)
 - Next steps
 
 #### report.md
 
 Use `templates/report.md` as reference. Include:
 
-- Executive summary
+- Executive summary (lead with root-cause themes)
+- What's working (strengths grouped by domain, with evidence)
 - Score breakdown by category
 - Top risks with severity
+- Open questions (verification questions for Unknown items)
 - Assessment profile (deployment, compliance)
+- Assumptions and coverage notes (from the mapper)
 - Checklist overview table
 
 #### action-plan.md
@@ -522,6 +539,7 @@ Use `templates/action-plan.md` as reference. Include:
 - Short-term (critical/high priority fails)
 - Mid-term (medium priority)
 - Long-term (low priority, nice-to-haves)
+- Not worth fixing right now (deferred items with reasons, per "What not to fix" above)
 
 #### checklist/index.md
 
@@ -571,6 +589,10 @@ Created .vibe-check/ with {N} checklist items:
   {title} -- {one-line description}
   {title} -- {one-line description}
 
+{If Unknown items exist:}
+{N} items couldn't be verified from code alone (marked Unknown, small score
+penalty). Answering a few quick questions can firm up your score.
+
 +-- NEXT --------------------------------------+
 |                                             |
 |  * Review: .vibe-check/summary.md           |
@@ -590,14 +612,38 @@ After displaying the summary, ask the user if they want to discuss the results:
 Would you like to:
 1. Discuss the findings -- Ask questions, dive deeper, get clarification
 2. Start fixing -- Pick an item to work on
-3. Done for now -- Review on your own later
+{If Unknown items exist:}
+3. Resolve unknowns -- Answer {N} quick questions to firm up your score
+4. Done for now -- Review on your own later
 ```
 
 Based on their choice:
 
 - **Discuss**: Load the report context and enter discussion mode
 - **Start fixing**: Ask which item they want to tackle first, then help fix it
+- **Resolve unknowns**: Run the resolve-unknowns flow below
 - **Done**: Already shown next steps in the terminal output above
+
+#### Resolve-unknowns flow
+
+Unknown items carry a -25% uncertainty deduction for things the code can't show but the user often knows (CDN-level headers, managed database backups, platform health checks). Resolving them converts uncertainty into real signal without a re-run.
+
+1. Ask each open question from the assessor summaries, one at a time, with concrete options: **Yes** (it's in place), **No** (it's not), **Not sure**. Batch related questions where natural — this should take the user under a minute.
+2. Apply answers:
+   - **Yes → Pass**: delete the checklist item file, set the item's status to Pass in metadata, remove the deduction
+   - **No → Fail**: update the item file's Status to Fail, add a note `**Resolved:** {date} — confirmed missing by user`, and apply the Fail deduction for the item's priority (per `reference/scoring.md`)
+   - **Not sure**: leave as Unknown, keep the -25% deduction
+3. Recompute `adjustedEarned`, score, and band per `reference/scoring.md`. Re-check the critical gate.
+4. Update metadata.json, summary.md, report.md, action-plan.md, and checklist/index.md to match.
+5. Re-display the score banner with the new score, noting the change (e.g., `Score: 78/100 (was 74 — 3 unknowns resolved)`).
+
+Resolved answers are user-confirmed facts, not code evidence. Record them in metadata.json under `resolvedUnknowns` so a future `/refresh` knows the source:
+
+```json
+"resolvedUnknowns": [
+  {"id": "item-006", "answer": "yes", "date": "{YYYY-MM-DD}"}
+]
+```
 
 ## Score Bands
 

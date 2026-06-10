@@ -30,7 +30,22 @@
 
 ## Overview
 
-{2-3 sentence summary of the project's production readiness state. Be direct about what's working and what's not.}
+{2-3 sentence summary of the project's production readiness state. Be direct about what's working and what's not. If a few root causes explain most findings, name them here.}
+
+---
+
+## What's Working
+
+```
+STRENGTHS
+═══════════════════════════════════════════════
+```
+
+{Top 3-5 passing items worth preserving, with the evidence that earned the pass. Pull from assessor strengths — pick the most meaningful, not all.}
+
+✓ **{Strength}** — {one-line evidence}
+✓ **{Strength}** — {one-line evidence}
+✓ **{Strength}** — {one-line evidence}
 
 ---
 
@@ -118,6 +133,19 @@ These items are agent-doable and high-impact:
 │                                             │
 └─────────────────────────────────────────────┘
 ```
+
+---
+
+## Open Questions
+
+{Only include this section if Unknown items exist:}
+
+These couldn't be verified from code alone — answering them firms up your score:
+
+? **{Item Title}** — {verification question: where to look, what Yes/No means}
+? **{Item Title}** — {verification question}
+
+Run `/check` again or choose "Resolve unknowns" to answer these interactively.
 
 ---
 

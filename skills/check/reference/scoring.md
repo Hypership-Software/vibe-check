@@ -145,6 +145,18 @@ earned = max(0, earned)  // floor at 0
 **Example:** An Analytics item (worth ~4.0 pts) with Critical priority fails:
 - Deduction = 100% × 4.0 = 4.0 pts (full item value lost)
 
+## Resolving Unknown Items
+
+The Unknown deduction (-25%) represents uncertainty, not failure — many Unknowns are dashboard-level facts (CDN headers, managed backups, platform health checks) the user can confirm even though the code can't show them.
+
+When the user resolves an Unknown (via the check skill's resolve-unknowns flow or during /discuss):
+
+- **Confirmed in place → Pass:** remove the deduction, delete the checklist item file, update metadata
+- **Confirmed missing → Fail:** replace the -25% Unknown deduction with the Fail deduction for the item's priority (e.g., High → -75%), update the item file
+- **Still unsure → Unknown:** keep the -25% deduction
+
+Then recompute `adjustedEarned`, `normalizedScore`, and band, re-check the critical gate, and update metadata.json and all report files. Record resolutions in metadata.json under `resolvedUnknowns` — these are user-confirmed facts, not code evidence, and a future refresh should treat them as such (re-verify from code where possible, don't silently discard them).
+
 ## Platform Informational Items
 
 Platform items appear in reports and action plans as advisory recommendations. They are assessed and written as checklist items but:

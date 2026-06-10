@@ -595,6 +595,12 @@ An agent can:
 - No = needs external account, dashboard config, credentials
 - Partial = agent does code, human completes setup
 
+**Unknown items:**
+
+- Every Unknown item must come with a verification question the user can answer without reading code: name the exact place to look (which dashboard, which settings page) and what Yes/No means for the status
+- Lead the item file's "How to Fix" section with a "Verify first" step containing that question — the fix steps only apply if the answer is No
+- Include the question in your return summary's Open Questions section so the orchestrator can offer to resolve it interactively
+
 **Priority calibration:**
 
 - Critical = actual emergency (secrets leaked, no auth on admin)
@@ -659,6 +665,23 @@ Return ONLY a structured summary:
 | Secrets Management  | Fail   | Critical | Yes          |
 | Authentication      | N/A    | -        | -            |
 | Input Validation    | Fail   | High     | Yes          |
+
+### Strengths
+
+{One line per Pass item: the title plus the specific evidence that earned the pass. The orchestrator uses these for the "What's Working" section — without them, passing items are invisible to the user.}
+
+- **HTTPS** — all API calls use https://, cookies set with Secure flag (`src/lib/api.ts:12`)
+- **Dependency Security** — lock file present, npm audit clean
+
+{If no items passed, write "None — no items in this domain passed."}
+
+### Open Questions
+
+{One per Unknown item: a concrete verification question a non-technical user can answer. Name the exact place to look and what each answer means for the status.}
+
+- **Security Headers (item-006)** — Are security headers (CSP, X-Frame-Options) configured at your hosting platform or CDN? Check your Vercel/Cloudflare dashboard. Yes → Pass. No → Fail (High).
+
+{If no Unknown items, omit this section.}
 
 ### Files Written
 

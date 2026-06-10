@@ -20,6 +20,32 @@
 
 {Paragraph overview of the assessment findings. Be direct about the current state, what's working, what's not, and what the path forward looks like.}
 
+{If 2-4 root causes explain most findings, name them:}
+
+**What explains most of this:**
+
+1. **{Theme}** — {one sentence: which findings this explains, e.g., "No CI pipeline — explains tests-not-in-CI, no build verification, and no environment separation"}
+2. **{Theme}** — {one sentence}
+3. **{Theme}** — {one sentence}
+
+---
+
+## What's Working
+
+```
+STRENGTHS
+═══════════════════════════════════════════════
+```
+
+{Passing items worth preserving, grouped by domain, with the evidence that earned each pass. These represent earned points — they explain where the score came from and what not to break.}
+
+**{Domain}**
+✓ {Item} — {one-line evidence}
+✓ {Item} — {one-line evidence}
+
+**{Domain}**
+✓ {Item} — {one-line evidence}
+
 ---
 
 ## Domain Breakdown
@@ -324,12 +350,27 @@ TOP RISKS
 
 ---
 
-## Assumptions
+## Open Questions
+
+{Only include this section if Unknown items exist:}
+
+These items couldn't be verified from code alone. Each carries a small uncertainty penalty until resolved:
+
+| Item | Question | If yes | If no |
+|------|----------|--------|-------|
+| [{Title}](./checklist/item-NNN-{slug}.md) | {Where to look and what to check} | Pass | Fail ({priority}) |
+| [{Title}](./checklist/item-NNN-{slug}.md) | {Where to look and what to check} | Pass | Fail ({priority}) |
+
+---
+
+## Assumptions & Coverage
 
 {If any information was unavailable, list assumptions made:}
 
 - {Assumption 1}
 - {Assumption 2}
+
+**Coverage notes:** {From the mapper — what received lighter review or was skipped (sampled directories, truncated search results). Write "Full coverage" if nothing was skipped.}
 
 ---
 

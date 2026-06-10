@@ -47,6 +47,10 @@ fix (orchestrator)
     |   +-- Ask user which items to fix (individually or batch)
     |   +-- Wait for explicit approval before proceeding
     |
+    +-- Phase 3.5: Safety Net
+    |   +-- Warn if working tree is dirty (rollback uses git restore)
+    |   +-- Offer a branch for batch fixes on the default branch
+    |
     +-- Phase 4: Fix Loop (sequential, after approval)
     |   +-- For each approved item:
     |       +-- Spawn: fixer agent (fresh context)
@@ -143,6 +147,25 @@ Which would you like me to fix?
 ```
 
 **Wait for the user's response before doing anything.**
+
+### Phase 3.5: Safety Net
+
+Before touching code, check the working tree:
+
+```bash
+git status --porcelain
+git branch --show-current
+```
+
+**Dirty working tree:** If there are uncommitted changes, warn before starting — failed fixes are rolled back with `git restore .`, which would discard the user's uncommitted work too. Ask them to commit or stash first, or get explicit confirmation to proceed anyway.
+
+**Batch fixes on the default branch:** If the user approved 2+ items and is on the default branch, offer to create a branch first:
+
+```bash
+git checkout -b vibe-check/fixes-{YYYY-MM-DD}
+```
+
+Each fix lands as its own commit, so a branch lets the user review and merge (or discard) the batch as a unit. If they decline, proceed on the current branch — it's their call.
 
 ### Phase 4: Fix Loop
 

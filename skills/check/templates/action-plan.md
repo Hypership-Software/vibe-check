@@ -79,6 +79,24 @@ Strategic improvements for scale, compliance, or operational excellence.
 
 ---
 
+## Not Worth Fixing Right Now
+
+```
+SKIP THESE — DELIBERATELY
+═══════════════════════════════════════════════
+```
+
+{Based on your project context (audience, data, stakes), these failing items aren't worth your time yet. They stay in the checklist and score, but we recommend deferring them. Never list Critical items here. Omit this section if nothing qualifies.}
+
+| Item | Why skip it for now |
+|------|---------------------|
+| [{Title}](./checklist/item-NNN-{slug}.md) | {One line — e.g., "E2E tests add little value before you have real user flows to protect"} |
+| [{Title}](./checklist/item-NNN-{slug}.md) | {One line} |
+
+Revisit these when your audience, data sensitivity, or stakes change.
+
+---
+
 ## Agent-Fixable Items
 
 ```

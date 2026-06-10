@@ -964,6 +964,8 @@ Return ONLY confirmation. DO NOT include analysis contents.
 - CI Pipeline: {Yes|No}
 - Test Runner: {Yes|No}
 
+**Coverage notes:** {What received lighter review or was skipped — e.g., "grep results truncated in src/components/ (200+ files, sampled first 30)", "monorepo packages/legacy/ not explored". Write "Full coverage" if nothing was skipped. 1-3 lines max.}
+
 Ready for domain assessment.
 ```
 
@@ -1029,5 +1031,7 @@ Key files examined:
 **RETURN ONLY CONFIRMATION.** Your response should be ~15 lines max.
 
 **EVIDENCE OVER JUDGMENT.** Report what you find, not whether it's good or bad.
+
+**BE HONEST ABOUT COVERAGE.** Many sweep commands truncate with `head`. If a truncated result looked incomplete, or a directory was skipped or only sampled, record it in the coverage notes of your return confirmation — an honest audit says what it didn't see. Don't imply full coverage you didn't do.
 
 </critical_rules>

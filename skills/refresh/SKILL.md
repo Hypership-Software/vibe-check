@@ -102,6 +102,7 @@ Read `.vibe-check/metadata.json` and note:
 - Previous analysis date
 - Previous score
 - Previous item list (IDs, slugs, statuses)
+- `resolvedUnknowns` if present (user-confirmed facts — needed for reconciliation)
 - Deployment and compliance context (reuse these — don't re-ask)
 
 Store this for comparison later.
@@ -192,6 +193,8 @@ For each OLD item, check if a corresponding NEW item exists (match by slug/topic
 
 For NEW items with no OLD match:
 - **New issue discovered** — keep with renumbered ID
+
+**Resolved unknowns:** If old metadata.json has a `resolvedUnknowns` array, those statuses are user-confirmed facts (e.g., "backups are enabled in the Supabase dashboard"), not code evidence. When the new assessment marks such an item Unknown again — because the code still can't show it — keep the user-confirmed status and carry `resolvedUnknowns` forward instead of regressing to Unknown. Only override a resolved status when the new assessment found actual code evidence that contradicts it.
 
 #### Scoring Version Migration
 
