@@ -28,23 +28,12 @@ export function SiteHeader({
           href="/"
           className="group flex items-center gap-3 transition-opacity hover:opacity-80"
         >
-          <div className="relative flex h-9 w-9 items-center justify-center">
-            <div className="absolute inset-0 rounded-xl bg-primary/10 ring-1 ring-border" />
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              fill="none"
-              className="relative h-[18px] w-[18px] text-primary"
-              strokeWidth="2"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
-              />
-            </svg>
-          </div>
+          <img
+            src="/vibe-check-logo.png"
+            alt=""
+            aria-hidden="true"
+            className="h-8 w-8"
+          />
           <div className="hidden sm:block">
             <p className="text-sm font-semibold tracking-tight text-foreground">
               vibe-check
