@@ -28,7 +28,7 @@ console.log(banner);
 
 // Show help
 if (hasHelp) {
-  console.log(`  ${yellow}Usage:${reset} npx vibe-check-cc [options]
+  console.log(`  ${yellow}Usage:${reset} npx @hypership-tech/vibe-check [options]
 
   ${yellow}Options:${reset}
     ${cyan}-g, --global${reset}      Clean up global install (~/.claude)
@@ -38,13 +38,13 @@ if (hasHelp) {
 
   ${yellow}Examples:${reset}
     ${dim}# Show migration guidance${reset}
-    npx vibe-check-cc
+    npx @hypership-tech/vibe-check
 
     ${dim}# Clean up old global install${reset}
-    npx vibe-check-cc --global --uninstall
+    npx @hypership-tech/vibe-check --global --uninstall
 
     ${dim}# Clean up old local install${reset}
-    npx vibe-check-cc --local --uninstall
+    npx @hypership-tech/vibe-check --local --uninstall
 `);
   process.exit(0);
 }
@@ -262,7 +262,7 @@ if (hasGlobal && hasLocal) {
 } else if (hasUninstall) {
   if (!hasGlobal && !hasLocal) {
     console.error(`  ${yellow}--uninstall requires --global or --local${reset}`);
-    console.error(`  Example: npx vibe-check-cc --global --uninstall\n`);
+    console.error(`  Example: npx @hypership-tech/vibe-check --global --uninstall\n`);
     process.exit(1);
   }
   cleanup(hasGlobal);

@@ -1,5 +1,5 @@
 {
-  "name": "vibe-check-cc",
+  "name": "@hypership-tech/vibe-check",
   "version": "2.1.2",
   "description": "Production readiness toolkit for AI-built apps",
   "author": {
@@ -7,7 +7,7 @@
   },
   "license": "MIT",
   "bin": {
-    "vibe-check-cc": "./bin/install.js"
+    "vibe-check": "./bin/install.js"
   },
   "keywords": [
     "claude",
@@ -27,5 +27,8 @@
   ],
   "engines": {
     "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

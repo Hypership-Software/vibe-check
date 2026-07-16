@@ -15,8 +15,8 @@
 
 **Production readiness toolkit for AI-built apps.**
 
-[![npm version](https://img.shields.io/npm/v/vibe-check-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/vibe-check-cc)
-[![npm downloads](https://img.shields.io/npm/dm/vibe-check-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/vibe-check-cc)
+[![npm version](https://img.shields.io/npm/v/@hypership-tech/vibe-check?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@hypership-tech/vibe-check)
+[![npm downloads](https://img.shields.io/npm/dm/@hypership-tech/vibe-check?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/@hypership-tech/vibe-check)
 [![GitHub stars](https://img.shields.io/github/stars/Hypership-Software/vibe-check?style=for-the-badge&logo=github&color=181717)](https://github.com/Hypership-Software/vibe-check)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 
@@ -276,7 +276,7 @@ The assessment output lives in `.vibe-check/` which you might commit. Here's how
 - Or use `/refresh` to update existing assessment
 
 **Migrating from v1?**
-- Run `npx vibe-check-cc` — it will detect old files and offer to clean them up
+- Run `npx @hypership-tech/vibe-check` — it will detect old files and offer to clean them up
 - Then install v2: `npx skills add Hypership-Software/vibe-check`
 
 ---
