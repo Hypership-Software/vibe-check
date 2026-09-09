@@ -434,11 +434,11 @@ export default function VibeCodingRisksGuide() {
                     category of risk, run a single scan that identifies specific gaps with
                     actionable fix instructions. Install with{' '}
                     <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
-                      npx vibe-check-cc
+                      npx skills add Hypership-Software/vibe-check
                     </code>{' '}
                     and run{' '}
                     <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
-                      /vibe-check:check
+                      /check
                     </code>{' '}
                     in Claude Code to scan your codebase across 19{' '}
                     <Link href="/features" className="text-primary underline underline-offset-4 hover:text-primary/80">

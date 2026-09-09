@@ -323,11 +323,11 @@ export default function LovableProductionReadyGuide() {
                 more. It identifies specific gaps in your Lovable app and generates
                 actionable prompts to fix them. Install it with{' '}
                 <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
-                  npx vibe-check-cc
+                  npx skills add Hypership-Software/vibe-check
                 </code>{' '}
                 and run a full scan with{' '}
                 <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
-                  /vibe-check:check
+                  /check
                 </code>{' '}
                 in Claude Code.
               </p>

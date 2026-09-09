@@ -327,16 +327,19 @@ export default function V0ProductionReadyGuide() {
                 Manually auditing a v0-generated codebase across every production
                 domain takes hours. Vibe Check automates the entire process. The CLI
                 plugin runs inside Claude Code and scans your actual codebase across
-                all production readiness domains — security, monitoring, payments,
-                reliability, legal compliance, and more. It identifies specific gaps
-                in your v0 app and generates actionable prompts to fix them. Install
-                it with{' '}
+                all production readiness domains —{' '}
+                <Link href="/guides/vibe-coding-security" className="text-primary underline underline-offset-4 hover:text-primary/80">
+                  security
+                </Link>
+                , monitoring, payments, reliability, legal compliance, and more. It
+                identifies specific gaps in your v0 app and generates actionable prompts to
+                fix them. Install it with{' '}
                 <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
-                  npx vibe-check-cc
+                  npx skills add Hypership-Software/vibe-check
                 </code>{' '}
                 and run a full scan with{' '}
                 <code className="rounded bg-muted px-1.5 py-0.5 text-sm font-mono">
-                  /vibe-check:check
+                  /check
                 </code>{' '}
                 in Claude Code.
               </p>

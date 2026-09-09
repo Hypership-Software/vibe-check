@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { FEATURES } from '@/lib/features';
 
-const LAST_CONTENT_UPDATE = '2026-03-09';
+const LAST_CONTENT_UPDATE = '2026-09-09';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://vibe-check.cloud';
@@ -29,6 +29,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/guides/vibe-coding-security`,
+      lastModified: contentDate,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/guides/vibe-coding-governance`,
+      lastModified: contentDate,
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/guides/vibe-coding-risks`,
       lastModified: contentDate,
       changeFrequency: 'monthly',
       priority: 0.9,

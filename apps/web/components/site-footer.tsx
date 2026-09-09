@@ -22,6 +22,26 @@ export function SiteFooter() {
             View on GitHub
           </a>
         </p>
+        <p className="text-sm text-muted-foreground">
+          Built by{' '}
+          <a
+            href="https://hypership.tech"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-4 transition-colors hover:text-foreground"
+          >
+            Hypership
+          </a>
+          {' · '}
+          <a
+            href="https://hypership.tech/ai-built-software-audits"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-4 transition-colors hover:text-foreground"
+          >
+            Independent audits of AI-built software
+          </a>
+        </p>
       </div>
     </footer>
   );

@@ -37,6 +37,12 @@ const GUIDE_DATA: Record<string, GuideInfo> = {
     description:
       'The production checklist for auth, API routes, database security, and error boundaries in v0 apps.',
   },
+  'vibe-coding-governance': {
+    slug: 'vibe-coding-governance',
+    title: 'Vibe Coding Governance',
+    description:
+      'Guardrails for startups and small teams — rules files, CI gates, review boundaries, and a launch gate.',
+  },
   'vibe-coding-risks': {
     slug: 'vibe-coding-risks',
     title: 'Vibe Coding Risks',
@@ -64,7 +70,8 @@ const GUIDE_DATA: Record<string, GuideInfo> = {
 };
 
 const RELATED_GUIDES: Record<string, string[]> = {
-  'vibe-coding-security': ['vibe-coding-risks', 'vibe-coding-failures', 'what-is-vibe-testing'],
+  'vibe-coding-security': ['vibe-coding-governance', 'vibe-coding-risks', 'vibe-coding-failures'],
+  'vibe-coding-governance': ['vibe-coding-security', 'vibe-coding-risks', 'what-is-vibe-testing'],
   'cursor-production-ready': [
     'bolt-production-ready',
     'lovable-production-ready',
@@ -85,7 +92,7 @@ const RELATED_GUIDES: Record<string, string[]> = {
     'bolt-production-ready',
     'lovable-production-ready',
   ],
-  'vibe-coding-risks': ['vibe-coding-security', 'vibe-coding-failures', 'what-is-vibe-testing'],
+  'vibe-coding-risks': ['vibe-coding-security', 'vibe-coding-governance', 'vibe-coding-failures'],
   'vibe-coding-failures': ['vibe-coding-risks', 'vibe-coding-security', 'ai-code-review-tools'],
   'ai-code-review-tools': ['vibe-coding-security', 'what-is-vibe-testing', 'vibe-coding-risks'],
   'what-is-vibe-testing': ['ai-code-review-tools', 'vibe-coding-risks', 'vibe-coding-security'],

@@ -10,6 +10,7 @@ Vibe Check is a code review tool designed specifically for the vibe coding workf
 
 ## Guides
 - [Vibe Coding Security Guide](https://vibe-check.cloud/guides/vibe-coding-security): Security risks in AI-generated code and how to mitigate them
+- [Vibe Coding Governance](https://vibe-check.cloud/guides/vibe-coding-governance): Guardrails for startups and small teams building with AI — rules files, CI gates, review boundaries, and a launch gate
 - [Vibe Coding Risks](https://vibe-check.cloud/guides/vibe-coding-risks): Common failure modes when building with AI code generators
 - [Vibe Coding Failures](https://vibe-check.cloud/guides/vibe-coding-failures): Real-world case studies of vibe coding gone wrong
 - [What Is Vibe Testing](https://vibe-check.cloud/guides/what-is-vibe-testing): Testing strategies for AI-generated codebases
